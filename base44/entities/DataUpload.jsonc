@@ -1,0 +1,38 @@
+{
+  "name": "DataUpload",
+  "type": "object",
+  "properties": {
+    "filename": {
+      "type": "string"
+    },
+    "upload_type": {
+      "type": "string",
+      "enum": [
+        "price_list",
+        "calculator"
+      ]
+    },
+    "records_count": {
+      "type": "number"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "success",
+        "error",
+        "processing"
+      ]
+    },
+    "error_message": {
+      "type": "string"
+    },
+    "file_url": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "filename",
+    "upload_type",
+    "status"
+  ]
+}

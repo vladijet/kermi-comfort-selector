@@ -1,0 +1,72 @@
+{
+  "name": "Radiator",
+  "type": "object",
+  "properties": {
+    "article": {
+      "type": "string"
+    },
+    "description_ru": {
+      "type": "string"
+    },
+    "description_en": {
+      "type": "string"
+    },
+    "series": {
+      "type": "string",
+      "enum": [
+        "profil",
+        "plan"
+      ]
+    },
+    "connection_type": {
+      "type": "string",
+      "enum": [
+        "FK0",
+        "FTU",
+        "FTV",
+        "PK0",
+        "PTV"
+      ]
+    },
+    "radiator_type": {
+      "type": "number"
+    },
+    "height": {
+      "type": "number"
+    },
+    "length": {
+      "type": "number"
+    },
+    "depth": {
+      "type": "number"
+    },
+    "heat_output_dt70": {
+      "type": "number"
+    },
+    "n_exponent": {
+      "type": "number"
+    },
+    "weight_net": {
+      "type": "number"
+    },
+    "weight_gross": {
+      "type": "number"
+    },
+    "volume": {
+      "type": "number"
+    },
+    "price": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "article",
+    "series",
+    "connection_type",
+    "radiator_type",
+    "height",
+    "length",
+    "heat_output_dt70",
+    "n_exponent"
+  ]
+}
