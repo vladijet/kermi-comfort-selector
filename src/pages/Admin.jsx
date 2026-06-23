@@ -47,24 +47,23 @@ export default function Admin() {
       const jsonSchema = {
         type: 'object',
         properties: {
-          records: {
+          rows: {
             type: 'array',
             items: {
               type: 'object',
               properties: {
                 article: { type: 'string' },
                 description_ru: { type: 'string' },
-                description_en: { type: 'string' },
+                net_weight_kg: { type: 'number' },
+                gross_weight_kg: { type: 'number' },
                 type: { type: 'number' },
                 height_mm: { type: 'number' },
                 length_mm: { type: 'number' },
                 depth_mm: { type: 'number' },
+                center_distance_mm: { type: 'number' },
                 heat_output_dt70_w: { type: 'number' },
                 n_exponent: { type: 'number' },
-                net_weight_kg: { type: 'number' },
-                gross_weight_kg: { type: 'number' },
-                coolant_volume_l: { type: 'number' },
-                price: { type: 'number' }
+                coolant_volume_l: { type: 'number' }
               }
             }
           }
@@ -80,7 +79,8 @@ export default function Admin() {
         throw new Error(extracted.details || 'Не удалось извлечь данные');
       }
 
-      const records = extracted.output.records || (Array.isArray(extracted.output) ? extracted.output : []);
+      const rawRows = extracted.output.rows || (Array.isArray(extracted.output) ? extracted.output : []);
+      const records = rawRows;
 
       if (!records.length) {
         throw new Error('Файл не содержит распознанных записей');
@@ -90,7 +90,7 @@ export default function Admin() {
 
       // Determine series by checking article prefix
       const processedRecords = records
-        .filter(r => r.article && r.height_mm && r.length_mm && r.heat_output_dt70_w)
+        .filter(r => r.article && (r.height_mm || r.height) && (r.length_mm || r.length) && (r.heat_output_dt70_w || r.heat_output_dt70))
         .map(r => {
           const art = String(r.article).trim();
           let series = 'profil';
@@ -108,16 +108,16 @@ export default function Admin() {
             description_en: r.description_en || '',
             series,
             connection_type,
-            radiator_type: r.type,
-            height: r.height_mm,
-            length: r.length_mm,
-            depth: r.depth_mm,
-            heat_output_dt70: r.heat_output_dt70_w,
+            radiator_type: r.type ?? r.radiator_type,
+            height: r.height_mm ?? r.height,
+            length: r.length_mm ?? r.length,
+            depth: r.depth_mm ?? r.depth,
+            heat_output_dt70: r.heat_output_dt70_w ?? r.heat_output_dt70,
             n_exponent: r.n_exponent || 1.28,
-            weight_net: r.net_weight_kg,
-            weight_gross: r.gross_weight_kg,
-            volume: r.coolant_volume_l,
-            price: r.price
+            weight_net: r.net_weight_kg ?? r.weight_net,
+            weight_gross: r.gross_weight_kg ?? r.weight_gross,
+            volume: r.coolant_volume_l ?? r.volume,
+            price: r.price || null
           };
         });
 
