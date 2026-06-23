@@ -99,14 +99,19 @@ export default function Admin() {
         .filter(r => r.article && (r.height_mm || r.height) && (r.length_mm || r.length) && (r.heat_output_dt70_w || r.heat_output_dt70))
         .map(r => {
           const art = String(r.article).trim();
+
+          // Determine series and connection_type strictly from article prefix
           let series = 'profil';
           let connection_type = 'FK0';
-
           if (art.startsWith('PK0')) { series = 'plan'; connection_type = 'PK0'; }
           else if (art.startsWith('PTV')) { series = 'plan'; connection_type = 'PTV'; }
           else if (art.startsWith('FTU')) { series = 'profil'; connection_type = 'FTU'; }
           else if (art.startsWith('FTV')) { series = 'profil'; connection_type = 'FTV'; }
           else if (art.startsWith('FK0')) { series = 'profil'; connection_type = 'FK0'; }
+
+          // Determine radiator_type from article digits after prefix (e.g. FTU33... → 33)
+          const typeMatch = art.match(/^[A-Z]+(\d{2})/);
+          const radiator_type = typeMatch ? parseInt(typeMatch[1], 10) : (r.type ?? r.radiator_type);
 
           return {
             article: art,
@@ -114,7 +119,7 @@ export default function Admin() {
             description_en: r.description_en || '',
             series,
             connection_type,
-            radiator_type: r.type ?? r.radiator_type,
+            radiator_type,
             height: r.height_mm ?? r.height,
             length: r.length_mm ?? r.length,
             depth: r.depth_mm ?? r.depth,
