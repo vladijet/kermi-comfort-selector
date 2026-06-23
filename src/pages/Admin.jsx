@@ -55,15 +55,15 @@ export default function Admin() {
                 article: { type: 'string' },
                 description_ru: { type: 'string' },
                 description_en: { type: 'string' },
-                radiator_type: { type: 'number' },
-                height: { type: 'number' },
-                length: { type: 'number' },
-                depth: { type: 'number' },
-                heat_output_dt70: { type: 'number' },
+                type: { type: 'number' },
+                height_mm: { type: 'number' },
+                length_mm: { type: 'number' },
+                depth_mm: { type: 'number' },
+                heat_output_dt70_w: { type: 'number' },
                 n_exponent: { type: 'number' },
-                weight_net: { type: 'number' },
-                weight_gross: { type: 'number' },
-                volume: { type: 'number' },
+                net_weight_kg: { type: 'number' },
+                gross_weight_kg: { type: 'number' },
+                coolant_volume_l: { type: 'number' },
                 price: { type: 'number' }
               }
             }
@@ -90,7 +90,7 @@ export default function Admin() {
 
       // Determine series by checking article prefix
       const processedRecords = records
-        .filter(r => r.article && r.height && r.length && r.heat_output_dt70)
+        .filter(r => r.article && r.height_mm && r.length_mm && r.heat_output_dt70_w)
         .map(r => {
           const art = String(r.article).trim();
           let series = 'profil';
@@ -108,15 +108,15 @@ export default function Admin() {
             description_en: r.description_en || '',
             series,
             connection_type,
-            radiator_type: r.radiator_type,
-            height: r.height,
-            length: r.length,
-            depth: r.depth,
-            heat_output_dt70: r.heat_output_dt70,
+            radiator_type: r.type,
+            height: r.height_mm,
+            length: r.length_mm,
+            depth: r.depth_mm,
+            heat_output_dt70: r.heat_output_dt70_w,
             n_exponent: r.n_exponent || 1.28,
-            weight_net: r.weight_net,
-            weight_gross: r.weight_gross,
-            volume: r.volume,
+            weight_net: r.net_weight_kg,
+            weight_gross: r.gross_weight_kg,
+            volume: r.coolant_volume_l,
             price: r.price
           };
         });
