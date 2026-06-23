@@ -49,7 +49,7 @@ export default function Admin() {
 
       setStatus({ type: 'loading', message: 'Извлечение данных из Excel...' });
 
-      // Extract data
+      // Extract data — all numeric fields as string to handle comma decimals
       const jsonSchema = {
         type: 'object',
         properties: {
@@ -60,16 +60,16 @@ export default function Admin() {
               properties: {
                 article: { type: 'string' },
                 description_ru: { type: 'string' },
-                net_weight_kg: { type: 'number' },
-                gross_weight_kg: { type: 'number' },
-                type: { type: 'number' },
-                height_mm: { type: 'number' },
-                length_mm: { type: 'number' },
-                depth_mm: { type: 'number' },
-                center_distance_mm: { type: 'number' },
-                heat_output_dt70_w: { type: 'number' },
-                n_exponent: { type: 'number' },
-                coolant_volume_l: { type: 'number' }
+                net_weight_kg: { type: 'string' },
+                gross_weight_kg: { type: 'string' },
+                type: { type: 'string' },
+                height_mm: { type: 'string' },
+                length_mm: { type: 'string' },
+                depth_mm: { type: 'string' },
+                center_distance_mm: { type: 'string' },
+                heat_output_dt70_w: { type: 'string' },
+                n_exponent: { type: 'string' },
+                coolant_volume_l: { type: 'string' }
               }
             }
           }
@@ -95,8 +95,15 @@ export default function Admin() {
       setStatus({ type: 'loading', message: `Обнаружено ${records.length} записей. Определение типа радиатора...` });
 
       // Determine series by checking article prefix
+      // Helper: parse number from string, replacing comma with dot
+      const num = (v) => {
+        if (v === null || v === undefined || v === '') return null;
+        const n = parseFloat(String(v).replace(',', '.'));
+        return isNaN(n) ? null : n;
+      };
+
       const processedRecords = records
-        .filter(r => r.article && (r.height_mm || r.height) && (r.length_mm || r.length) && (r.heat_output_dt70_w || r.heat_output_dt70))
+        .filter(r => r.article && (num(r.height_mm) || num(r.height)) && (num(r.length_mm) || num(r.length)) && (num(r.heat_output_dt70_w) || num(r.heat_output_dt70)))
         .map(r => {
           const art = String(r.article).trim();
 
@@ -111,7 +118,7 @@ export default function Admin() {
 
           // Determine radiator_type from article digits after prefix (e.g. FTU33... → 33)
           const typeMatch = art.match(/^[A-Z]+(\d{2})/);
-          const radiator_type = typeMatch ? parseInt(typeMatch[1], 10) : (r.type ?? r.radiator_type);
+          const radiator_type = typeMatch ? parseInt(typeMatch[1], 10) : (num(r.type) ?? num(r.radiator_type));
 
           return {
             article: art,
@@ -120,15 +127,15 @@ export default function Admin() {
             series,
             connection_type,
             radiator_type,
-            height: r.height_mm ?? r.height,
-            length: r.length_mm ?? r.length,
-            depth: r.depth_mm ?? r.depth,
-            heat_output_dt70: r.heat_output_dt70_w ?? r.heat_output_dt70,
-            n_exponent: r.n_exponent || 1.28,
-            weight_net: r.net_weight_kg ?? r.weight_net,
-            weight_gross: r.gross_weight_kg ?? r.weight_gross,
-            volume: r.coolant_volume_l ?? r.volume,
-            price: r.price || null
+            height: num(r.height_mm) ?? num(r.height),
+            length: num(r.length_mm) ?? num(r.length),
+            depth: num(r.depth_mm) ?? num(r.depth),
+            heat_output_dt70: num(r.heat_output_dt70_w) ?? num(r.heat_output_dt70),
+            n_exponent: num(r.n_exponent) || 1.28,
+            weight_net: num(r.net_weight_kg) ?? num(r.weight_net),
+            weight_gross: num(r.gross_weight_kg) ?? num(r.weight_gross),
+            volume: num(r.coolant_volume_l) ?? num(r.volume),
+            price: num(r.price) || null
           };
         });
 
