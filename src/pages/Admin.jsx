@@ -22,9 +22,15 @@ export default function Admin() {
       base44.entities.Radiator.list('-created_date', 1)
     ]);
     setUploads(uploadList);
-    // count all
-    const all = await base44.entities.Radiator.list('article', 500);
-    setRadiatorCount(all.length);
+    // count all by paginating with offset
+    let total = 0, page = 0;
+    while (true) {
+      const batch = await base44.entities.Radiator.list('article', 500, 500 * page);
+      total += batch.length;
+      if (batch.length < 500) break;
+      page++;
+    }
+    setRadiatorCount(total);
   };
 
   const parseAndImportExcel = async (file, type) => {
