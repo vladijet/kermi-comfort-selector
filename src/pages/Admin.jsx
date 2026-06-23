@@ -49,7 +49,7 @@ export default function Admin() {
 
       setStatus({ type: 'loading', message: 'Извлечение данных из Excel...' });
 
-      // Extract data — all numeric fields as string to handle comma decimals
+      // Extract data — fields can be number or string (handles both formats)
       const jsonSchema = {
         type: 'object',
         properties: {
@@ -60,16 +60,16 @@ export default function Admin() {
               properties: {
                 article: { type: 'string' },
                 description_ru: { type: 'string' },
-                net_weight_kg: { type: 'string' },
-                gross_weight_kg: { type: 'string' },
-                type: { type: 'string' },
-                height_mm: { type: 'string' },
-                length_mm: { type: 'string' },
-                depth_mm: { type: 'string' },
-                center_distance_mm: { type: 'string' },
-                heat_output_dt70_w: { type: 'string' },
-                n_exponent: { type: 'string' },
-                coolant_volume_l: { type: 'string' }
+                net_weight_kg: {},
+                gross_weight_kg: {},
+                type: {},
+                height_mm: {},
+                length_mm: {},
+                depth_mm: {},
+                center_distance_mm: {},
+                heat_output_dt70_w: {},
+                n_exponent: {},
+                coolant_volume_l: {}
               }
             }
           }
@@ -103,7 +103,7 @@ export default function Admin() {
       };
 
       const processedRecords = records
-        .filter(r => r.article && (num(r.height_mm) || num(r.height)) && (num(r.length_mm) || num(r.length)) && (num(r.heat_output_dt70_w) || num(r.heat_output_dt70)))
+        .filter(r => r.article)
         .map(r => {
           const art = String(r.article).trim();
 
