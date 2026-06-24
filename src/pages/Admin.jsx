@@ -92,6 +92,11 @@ export default function Admin() {
         throw new Error('Файл не содержит распознанных записей');
       }
 
+      // Debug: log first record structure to see field names from extraction
+      console.log('[DEBUG] records count:', records.length);
+      console.log('[DEBUG] first record:', JSON.stringify(records[0], null, 2));
+      console.log('[DEBUG] first record keys:', Object.keys(records[0] || {}));
+
       setStatus({ type: 'loading', message: `Обнаружено ${records.length} записей. Определение типа радиатора...` });
 
       // Determine series by checking article prefix
