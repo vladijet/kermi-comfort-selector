@@ -59,7 +59,12 @@ export default function Admin() {
       const result = resp.data;
 
       if (result.status !== 'success') {
-        throw new Error(result.details || 'Не удалось обработать файл');
+        // Include debug header info when rows were found but no articles recognized
+        let msg = result.details || 'Не удалось обработать файл';
+        if (result.debug && result.debug.headers) {
+          msg += ` (заголовки: ${result.debug.headers.join(', ')})`;
+        }
+        throw new Error(msg);
       }
 
       setStatus({ type: 'success', message: `Успешно загружено ${result.records_count} позиций!` });

@@ -30,6 +30,7 @@ Deno.serve(async (req) => {
     const sheetName = wb.SheetNames[0];
     const ws = wb.Sheets[sheetName];
     // raw:false so numbers parsed as JS numbers, blank cells as empty strings
+    // header:1 returns rows as arrays-of-arrays — we find the article row by scanning
     const rows = XLSX.utils.sheet_to_json(ws, { defval: null, raw: true });
     if (!rows || !rows.length) {
       // Update upload record if provided
@@ -39,7 +40,7 @@ Deno.serve(async (req) => {
           error_message: 'Файл не содержит распознанных записей'
         });
       }
-      return Response.json({ status: 'error', details: 'Файл не содержит распознанных записей', records_count: 0 });
+      return Response.json({ status: 'error', details: 'Файл не содержит распознанных записей', records_count: 0, debug: { headers: [], sheetNames: wb.SheetNames } });
     }
 
     const num = (v) => {
@@ -106,7 +107,16 @@ Deno.serve(async (req) => {
           error_message: 'Не найдено строк с артикулом'
         });
       }
-      return Response.json({ status: 'error', details: 'Не найдено строк с артикулом', records_count: 0 });
+      return Response.json({
+        status: 'error',
+        details: 'Не найдено строк с артикулом',
+        records_count: 0,
+        debug: {
+          totalRows: rows.length,
+          headers: Object.keys(rows[0]),
+          firstRow: rows[0]
+        }
+      });
     }
 
     // Bulk create in batches of 100
