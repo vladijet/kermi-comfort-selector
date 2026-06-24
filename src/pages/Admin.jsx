@@ -47,120 +47,22 @@ export default function Admin() {
       // Upload file
       const { file_url } = await base44.integrations.Core.UploadFile({ file });
 
-      setStatus({ type: 'loading', message: 'Извлечение данных из Excel...' });
+      setStatus({ type: 'loading', message: 'Парсинг Excel и загрузка в базу...' });
 
-      // Extract data — fields can be number or string (handles both formats)
-      const jsonSchema = {
-        type: 'object',
-        properties: {
-          rows: {
-            type: 'array',
-            items: {
-              type: 'object',
-              properties: {
-                article: { type: 'string' },
-                description_ru: { type: 'string' },
-                net_weight_kg: {},
-                gross_weight_kg: {},
-                type: {},
-                height_mm: {},
-                length_mm: {},
-                depth_mm: {},
-                center_distance_mm: {},
-                heat_output_dt70_w: {},
-                n_exponent: {},
-                coolant_volume_l: {}
-              }
-            }
-          }
-        }
-      };
-
-      const extracted = await base44.integrations.Core.ExtractDataFromUploadedFile({
+      // Call backend function that parses xlsx directly (no flaky AI extraction)
+      const resp = await base44.functions.invoke('parseRadiatorsExcel', {
         file_url,
-        json_schema: jsonSchema
+        upload_type: type,
+        upload_record_id: uploadRecord.id
       });
 
-      if (extracted.status !== 'success' || !extracted.output) {
-        throw new Error(extracted.details || 'Не удалось извлечь данные');
+      const result = resp.data;
+
+      if (result.status !== 'success') {
+        throw new Error(result.details || 'Не удалось обработать файл');
       }
 
-      const rawRows = extracted.output.rows || (Array.isArray(extracted.output) ? extracted.output : []);
-      const records = rawRows;
-
-      if (!records.length) {
-        throw new Error('Файл не содержит распознанных записей');
-      }
-
-      // Debug: log first record structure to see field names from extraction
-      console.log('[DEBUG] records count:', records.length);
-      console.log('[DEBUG] first record:', JSON.stringify(records[0], null, 2));
-      console.log('[DEBUG] first record keys:', Object.keys(records[0] || {}));
-
-      setStatus({ type: 'loading', message: `Обнаружено ${records.length} записей. Определение типа радиатора...` });
-
-      // Determine series by checking article prefix
-      // Helper: parse number from string, replacing comma with dot
-      const num = (v) => {
-        if (v === null || v === undefined || v === '') return null;
-        const n = parseFloat(String(v).replace(',', '.'));
-        return isNaN(n) ? null : n;
-      };
-
-      const processedRecords = records
-        .filter(r => r.article)
-        .map(r => {
-          const art = String(r.article).trim();
-
-          // Determine series and connection_type strictly from article prefix
-          let series = 'profil';
-          let connection_type = 'FK0';
-          if (art.startsWith('PK0')) { series = 'plan'; connection_type = 'PK0'; }
-          else if (art.startsWith('PTV')) { series = 'plan'; connection_type = 'PTV'; }
-          else if (art.startsWith('FTU')) { series = 'profil'; connection_type = 'FTU'; }
-          else if (art.startsWith('FTV')) { series = 'profil'; connection_type = 'FTV'; }
-          else if (art.startsWith('FK0')) { series = 'profil'; connection_type = 'FK0'; }
-
-          // Determine radiator_type from article digits after prefix (e.g. FTU33... → 33)
-          const typeMatch = art.match(/^[A-Z]+(\d{2})/);
-          const radiator_type = typeMatch ? parseInt(typeMatch[1], 10) : (num(r.type) ?? num(r.radiator_type));
-
-          return {
-            article: art,
-            description_ru: r.description_ru || '',
-            description_en: r.description_en || '',
-            series,
-            connection_type,
-            radiator_type,
-            height: num(r.height_mm) ?? num(r.height),
-            length: num(r.length_mm) ?? num(r.length),
-            depth: num(r.depth_mm) ?? num(r.depth),
-            heat_output_dt70: num(r.heat_output_dt70_w) ?? num(r.heat_output_dt70),
-            n_exponent: num(r.n_exponent) || 1.28,
-            weight_net: num(r.net_weight_kg) ?? num(r.weight_net),
-            weight_gross: num(r.gross_weight_kg) ?? num(r.weight_gross),
-            volume: num(r.coolant_volume_l) ?? num(r.volume),
-            price: num(r.price) || null
-          };
-        });
-
-      setStatus({ type: 'loading', message: `Загрузка ${processedRecords.length} позиций в базу данных...` });
-
-      // Bulk create in batches of 100
-      const BATCH = 100;
-      for (let i = 0; i < processedRecords.length; i += BATCH) {
-        const batch = processedRecords.slice(i, i + BATCH);
-        await base44.entities.Radiator.bulkCreate(batch);
-        setStatus({ type: 'loading', message: `Загружено ${Math.min(i + BATCH, processedRecords.length)} из ${processedRecords.length}...` });
-      }
-
-      await base44.entities.DataUpload.update(uploadRecord.id, {
-        status: 'success',
-        records_count: processedRecords.length,
-        file_url
-      });
-
-      setStatus({ type: 'success', message: `Успешно загружено ${processedRecords.length} позиций!` });
+      setStatus({ type: 'success', message: `Успешно загружено ${result.records_count} позиций!` });
       await loadData();
 
     } catch (err) {
