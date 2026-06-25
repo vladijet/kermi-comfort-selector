@@ -1,0 +1,26 @@
+{
+  "name": "Dealer",
+  "type": "object",
+  "properties": {
+    "company_name": {
+      "type": "string"
+    },
+    "website": {
+      "type": "string"
+    },
+    "contact_name": {
+      "type": "string"
+    },
+    "uid": {
+      "type": "string"
+    },
+    "analytics_enabled": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "company_name",
+    "uid"
+  ]
+}

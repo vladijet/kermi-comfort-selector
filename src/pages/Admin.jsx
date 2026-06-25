@@ -110,12 +110,20 @@ export default function Admin() {
               <p className="text-xs text-gray-400">Kermi Comfort — управление данными</p>
             </div>
           </div>
-          <button
-            onClick={() => navigate('/')}
-            className="text-sm text-brand-green font-medium hover:underline"
-          >
-            ← Открыть виджет
-          </button>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => navigate('/dealers')}
+              className="text-sm text-gray-500 font-medium hover:underline"
+            >
+              Виджеты и дилеры
+            </button>
+            <button
+              onClick={() => navigate('/')}
+              className="text-sm text-brand-green font-medium hover:underline"
+            >
+              ← Открыть виджет
+            </button>
+          </div>
         </div>
       </div>
 

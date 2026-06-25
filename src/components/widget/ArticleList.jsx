@@ -3,7 +3,7 @@ import { Copy, Check } from 'lucide-react';
 import { calcHeatOutput, calcDtln, calcDtArith, CONNECTION_LABELS, RADIATOR_IMAGES } from '@/lib/radiatorData';
 import BracketInfo from '@/components/widget/BracketInfo';
 
-export default function ArticleList({ radiators, calcMode, passportMode, passportDtln }) {
+export default function ArticleList({ radiators, calcMode, passportMode, passportDtln, onArticleCopied }) {
   const [copiedId, setCopiedId] = useState(null);
 
   const dtln_calc = calcDtln(calcMode.t1, calcMode.t2, calcMode.tv);
@@ -13,6 +13,7 @@ export default function ArticleList({ radiators, calcMode, passportMode, passpor
   const copyArticle = (article) => {
     navigator.clipboard.writeText(article).then(() => {
       setCopiedId(article);
+      onArticleCopied?.();
       setTimeout(() => setCopiedId(null), 2000);
     }).catch(() => {
       // Fallback for older browsers
@@ -22,6 +23,7 @@ export default function ArticleList({ radiators, calcMode, passportMode, passpor
       el.select();
       document.execCommand('copy');
       document.body.removeChild(el);
+      onArticleCopied?.();
       setCopiedId(article);
       setTimeout(() => setCopiedId(null), 2000);
     });

@@ -1,0 +1,24 @@
+{
+  "name": "WidgetEvent",
+  "type": "object",
+  "properties": {
+    "dealer_uid": {
+      "type": "string"
+    },
+    "visitor_id": {
+      "type": "string"
+    },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "widget_opened",
+        "calculation_performed",
+        "article_copied"
+      ]
+    }
+  },
+  "required": [
+    "dealer_uid",
+    "event_type"
+  ]
+}
