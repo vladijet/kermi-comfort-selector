@@ -55,10 +55,38 @@ export const CONNECTION_BY_SERIES = {
 
 export const CONNECTION_LABELS = {
   FK0: 'Профиль-К: FK0 — боковое подключение',
-  FTU: 'Профиль-В: FTU — универсальное подключение',
-  FTV: 'Профиль-В: FTV — универсальное подключение',
+  FTU: 'Профиль-В: FTU — универсальное подключение с вентилем',
+  FTV: 'Профиль-В: FTV — нижнее подключение с вентилем',
   PK0: 'План-К: PK0 — боковое подключение',
-  PTV: 'План-В: PTV — универсальное подключение'
+  PTV: 'План-В: PTV — универсальное подключение с вентилем'
+};
+
+// Drawings (чертежи) keyed by `${series}_${connection_type}_${radiator_type}`
+const IMG_BASE = 'https://media.base44.com/images/public/6a3a434b2f3f3e79050bd884/';
+export const RADIATOR_IMAGES = {
+  profil_FK0_33: IMG_BASE + 'e3450b4cf_KermiCRU-T33FK033.png',
+  profil_FK0_30: IMG_BASE + '69efeb241_KermiCRU-T30FK030.png',
+  profil_FK0_22: IMG_BASE + '76a907cde_KermiCRU-T22FK022.png',
+  profil_FK0_20: IMG_BASE + '0a3915c8c_KermiCRU-T20FK020.png',
+  profil_FK0_12: IMG_BASE + 'ce85ce9b8_KermiCRU-T12FK012.png',
+  profil_FK0_11: IMG_BASE + '06ade1a61_KermiCRU-T11FK011.png',
+  profil_FK0_10: IMG_BASE + '250f80d05_KermiCRU-T10FK010.png',
+  profil_FTV_33: IMG_BASE + '9fb8846f1_KermiCRU-T33FTV33.png',
+  profil_FTV_30: IMG_BASE + '2ff798bd5_KermiCRU-T30FTV30.png',
+  profil_FTV_22: IMG_BASE + 'd59ceb72f_KermiCRU-T22FTV22.png',
+  profil_FTV_20: IMG_BASE + '7498154b9_KermiCRU-T20FTV20.png',
+  profil_FTV_12: IMG_BASE + '116c151cb_KermiCRU-T12FTV12.png',
+  profil_FTV_11: IMG_BASE + '6b5c1e826_KermiCRU-T11FTV11.png',
+  profil_FTV_10: IMG_BASE + '1767c6205_KermiCRU-T10FTV10.png',
+  profil_FTU_33: IMG_BASE + '859c60fb1_KermiCRU-JCT33FTU33.png',
+  profil_FTU_22: IMG_BASE + 'c0836db33_KermiCRU-JCT22FTU22.png',
+  profil_FTU_12: IMG_BASE + '2d9e1a0bd_KermiCRU-JCT12FTU12.png',
+  plan_PK0_30: IMG_BASE + 'd155d38aa_KermiCRU-T30PK030.png',
+  plan_PK0_20: IMG_BASE + '7837095f6_KermiCRU-T20PK020.png',
+  plan_PK0_10: IMG_BASE + 'c9d25c3b3_KermiCRU-T10PK010.png',
+  plan_PTV_30: IMG_BASE + 'e5dd977e8_KermiCRU-T30PTV30.png',
+  plan_PTV_20: IMG_BASE + '818c24a21_KermiCRU-T20PTV20.png',
+  plan_PTV_10: IMG_BASE + 'b7bc37df3_KermiCRU-T10PTV10.png'
 };
 
 export async function loadRadiators(series, type) {

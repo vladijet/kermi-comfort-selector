@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Copy, Check } from 'lucide-react';
-import { calcHeatOutput, calcDtln, calcDtArith, CONNECTION_LABELS } from '@/lib/radiatorData';
+import { calcHeatOutput, calcDtln, calcDtArith, CONNECTION_LABELS, RADIATOR_IMAGES } from '@/lib/radiatorData';
 
 export default function ArticleList({ radiators, calcMode, passportMode, passportDtln }) {
   const [copiedId, setCopiedId] = useState(null);
@@ -39,11 +39,25 @@ export default function ArticleList({ radiators, calcMode, passportMode, passpor
     <div className="mt-6 space-y-4">
       {Object.entries(grouped).map(([connType, items]) => (
         <div key={connType} className="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm">
-          <div className="px-4 py-2 bg-gray-50 border-b border-gray-100">
-            <span className="text-xs font-medium text-gray-500">
-              {CONNECTION_LABELS[connType] || connType}
-            </span>
-          </div>
+          {(() => {
+            const rType = items[0]?.radiator_type;
+            const imageKey = `${items[0]?.series}_${connType}_${rType}`;
+            const imgUrl = RADIATOR_IMAGES[imageKey];
+            return (
+              <div className="flex items-center justify-between gap-4 px-4 py-2 bg-gray-50 border-b border-gray-100">
+                <span className="text-xs font-medium text-gray-500">
+                  {CONNECTION_LABELS[connType] || connType}
+                </span>
+                {imgUrl && (
+                  <img
+                    src={imgUrl}
+                    alt={`Чертёж ${connType} тип ${rType}`}
+                    className="h-16 w-auto object-contain"
+                  />
+                )}
+              </div>
+            );
+          })()}
           <div className="divide-y divide-gray-50">
             {items.map(r => {
               const qCalc = dtln_calc && passportDtln
