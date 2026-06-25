@@ -25,6 +25,9 @@
     --border: 0 0% 87.8%;
     --input: 0 0% 87.8%;
     --ring: 68 100% 43.5%;
+    --kermi-sel: 72 62% 79%;
+    --kermi-heat: 68 100% 17%;
+    --kermi-pass: 218 10% 65%;
     --brand-green: 123 46% 34%;
     --brand-red: 6 63% 46%;
     --chart-1: 12 76% 61%;
@@ -69,6 +72,9 @@
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;
     --ring: 68 100% 43.5%;
+    --kermi-sel: 72 62% 79%;
+    --kermi-heat: 68 100% 17%;
+    --kermi-pass: 218 10% 65%;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;

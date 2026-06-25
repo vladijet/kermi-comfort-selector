@@ -107,13 +107,13 @@ export default function HeatTable({
                     onClick={() => onCellSelect({ height, length: len })}
                     className={`text-center px-1 py-1.5 cursor-pointer rounded transition-all duration-100 ${
                       isSelected
-                        ? 'bg-brand-green/10 ring-2 ring-brand-green ring-inset'
-                        : 'hover:ring-1 hover:ring-brand-green hover:ring-inset'
+                        ? 'bg-kermi-sel ring-2 ring-primary ring-inset'
+                        : 'hover:ring-1 hover:ring-primary hover:ring-inset'
                     }`}
                   >
                     <div className="text-xs text-muted-foreground leading-tight">{Math.round(q70)}</div>
                     {qCalc && (
-                      <div className="text-sm font-bold text-brand-green leading-tight">{Math.round(qCalc)}</div>
+                      <div className="text-sm font-bold text-kermi-heat leading-tight">{Math.round(qCalc)}</div>
                     )}
                   </td>
                 );

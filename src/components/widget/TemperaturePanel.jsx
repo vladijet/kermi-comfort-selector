@@ -28,8 +28,8 @@ export default function TemperaturePanel({ calcMode, onChange, passportMode, onP
             {renderTempInput('Т2, °C', passportMode, 't2', onPassportChange)}
             {renderTempInput('Тв, °C', passportMode, 'tv', onPassportChange)}
             <div className="flex flex-col gap-1 pb-0.5">
-              <span className="text-xs text-gray-400">ΔТ, °C</span>
-              <span className="text-sm font-bold text-brand-green px-1">
+              <span className="text-xs text-muted-foreground">ΔТ, °C</span>
+              <span className="text-sm font-bold text-kermi-pass px-1">
                 = {passportDtArith ? passportDtArith.toFixed(0) : '—'}
               </span>
             </div>
@@ -49,7 +49,7 @@ export default function TemperaturePanel({ calcMode, onChange, passportMode, onP
             <div className="flex flex-col gap-1 pb-0.5">
               <span className="text-xs text-gray-400">ΔТ, °C</span>
               {dtArith ? (
-                <span className="text-sm font-bold text-brand-green px-1">= {dtArith.toFixed(0)}</span>
+                <span className="text-sm font-bold text-kermi-heat px-1">= {dtArith.toFixed(0)}</span>
               ) : (
                 <span className="text-sm font-medium text-brand-red px-1">Ошибка</span>
               )}

@@ -30,6 +30,11 @@ module.exports = {
   				green: 'hsl(var(--brand-green))',
   				red: 'hsl(var(--brand-red))'
   			},
+  			kermi: {
+  				sel: 'hsl(var(--kermi-sel))',
+  				heat: 'hsl(var(--kermi-heat))',
+  				pass: 'hsl(var(--kermi-pass))'
+  			},
   			secondary: {
   				DEFAULT: 'hsl(var(--secondary))',
   				foreground: 'hsl(var(--secondary-foreground))'
