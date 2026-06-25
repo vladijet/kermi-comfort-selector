@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Copy, Check } from 'lucide-react';
-import { calcHeatOutput, calcDtln, PASSPORT_DTLN, CONNECTION_LABELS } from '@/lib/radiatorData';
+import { calcHeatOutput, calcDtln, calcDtArith, CONNECTION_LABELS } from '@/lib/radiatorData';
 
-export default function ArticleList({ radiators, calcMode }) {
+export default function ArticleList({ radiators, calcMode, passportMode, passportDtln }) {
   const [copiedId, setCopiedId] = useState(null);
 
   const dtln_calc = calcDtln(calcMode.t1, calcMode.t2, calcMode.tv);
+  const dtArithPassport = calcDtArith(passportMode.t1, passportMode.t2, passportMode.tv);
+  const dtArithCalc = calcDtArith(calcMode.t1, calcMode.t2, calcMode.tv);
 
   const copyArticle = (article) => {
     navigator.clipboard.writeText(article).then(() => {
@@ -44,8 +46,8 @@ export default function ArticleList({ radiators, calcMode }) {
           </div>
           <div className="divide-y divide-gray-50">
             {items.map(r => {
-              const qCalc = dtln_calc && PASSPORT_DTLN
-                ? calcHeatOutput(r.heat_output_dt70, dtln_calc, PASSPORT_DTLN, r.n_exponent)
+              const qCalc = dtln_calc && passportDtln
+                ? calcHeatOutput(r.heat_output_dt70, dtln_calc, passportDtln, r.n_exponent)
                 : null;
               const isCopied = copiedId === r.article;
 
@@ -77,15 +79,26 @@ export default function ArticleList({ radiators, calcMode }) {
                     {r.description_ru}
                   </div>
 
-                  {/* Heat output */}
-                  <div className="flex items-center gap-2 text-sm whitespace-nowrap">
-                    <span className="text-gray-400">{Math.round(r.heat_output_dt70)} Вт</span>
-                    {qCalc && (
-                      <>
-                        <span className="text-gray-300">/</span>
-                        <span className="font-bold text-brand-green">{Math.round(qCalc)} Вт</span>
-                      </>
-                    )}
+                  {/* Heat output with temperature head labels */}
+                  <div className="flex flex-col gap-0.5 whitespace-nowrap">
+                    <div className="flex items-center gap-2 text-sm">
+                      <span className="text-gray-400">{Math.round(r.heat_output_dt70)} Вт</span>
+                      {qCalc && (
+                        <>
+                          <span className="text-gray-300">/</span>
+                          <span className="font-bold text-brand-green">{Math.round(qCalc)} Вт</span>
+                        </>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-2 text-[10px] text-gray-400 font-medium">
+                      <span>ΔТ пасп {dtArithPassport ? dtArithPassport.toFixed(0) : '—'}°</span>
+                      {qCalc && (
+                        <>
+                          <span className="text-transparent">/</span>
+                          <span>ΔТ расч {dtArithCalc ? dtArithCalc.toFixed(0) : '—'}°</span>
+                        </>
+                      )}
+                    </div>
                   </div>
 
                   {/* Weight */}

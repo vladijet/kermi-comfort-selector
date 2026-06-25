@@ -1,18 +1,17 @@
 import React from 'react';
-import { calcDtln, PASSPORT_T1, PASSPORT_T2, PASSPORT_TV } from '@/lib/radiatorData';
+import { calcDtArith } from '@/lib/radiatorData';
 
-export default function TemperaturePanel({ calcMode, onChange }) {
-  const { t1, t2, tv } = calcMode;
-  const dtln = calcDtln(t1, t2, tv);
-  const passportDtln = calcDtln(PASSPORT_T1, PASSPORT_T2, PASSPORT_TV);
+export default function TemperaturePanel({ calcMode, onChange, passportMode, onPassportChange }) {
+  const dtArith = calcDtArith(calcMode.t1, calcMode.t2, calcMode.tv);
+  const passportDtArith = calcDtArith(passportMode.t1, passportMode.t2, passportMode.tv);
 
-  const input = (label, key) => (
+  const renderTempInput = (label, mode, key, onModeChange) => (
     <div className="flex flex-col gap-1">
-      <span className="text-xs text-gray-400 font-medium">{label}</span>
+      <span className="text-xs text-gray-400">{label}</span>
       <input
         type="number"
-        value={calcMode[key]}
-        onChange={e => onChange({ ...calcMode, [key]: e.target.value })}
+        value={mode[key]}
+        onChange={e => onModeChange({ ...mode, [key]: e.target.value })}
         className="w-20 px-3 py-2 rounded-lg border border-border bg-background text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
       />
     </div>
@@ -25,21 +24,14 @@ export default function TemperaturePanel({ calcMode, onChange }) {
         <div>
           <p className="text-xs text-gray-400 mb-3 font-semibold uppercase tracking-wide">Паспортный температурный режим</p>
           <div className="flex items-end gap-3">
-            <div className="flex flex-col gap-1">
-              <span className="text-xs text-gray-400">Т1, °C</span>
-              <div className="w-20 px-3 py-2 rounded-lg border border-gray-100 bg-gray-50 text-sm font-medium text-gray-500">{PASSPORT_T1}</div>
-            </div>
-            <div className="flex flex-col gap-1">
-              <span className="text-xs text-gray-400">Т2, °C</span>
-              <div className="w-20 px-3 py-2 rounded-lg border border-gray-100 bg-gray-50 text-sm font-medium text-gray-500">{PASSPORT_T2}</div>
-            </div>
-            <div className="flex flex-col gap-1">
-              <span className="text-xs text-gray-400">Тв, °C</span>
-              <div className="w-20 px-3 py-2 rounded-lg border border-gray-100 bg-gray-50 text-sm font-medium text-gray-500">{PASSPORT_TV}</div>
-            </div>
+            {renderTempInput('Т1, °C', passportMode, 't1', onPassportChange)}
+            {renderTempInput('Т2, °C', passportMode, 't2', onPassportChange)}
+            {renderTempInput('Тв, °C', passportMode, 'tv', onPassportChange)}
             <div className="flex flex-col gap-1 pb-0.5">
-              <span className="text-xs text-gray-400">Dt (ΔТ)</span>
-              <span className="text-sm font-medium text-gray-500 px-1">= {passportDtln ? passportDtln.toFixed(1) : '—'}</span>
+              <span className="text-xs text-gray-400">ΔТ, °C</span>
+              <span className="text-sm font-bold text-brand-green px-1">
+                = {passportDtArith ? passportDtArith.toFixed(0) : '—'}
+              </span>
             </div>
           </div>
         </div>
@@ -51,37 +43,13 @@ export default function TemperaturePanel({ calcMode, onChange }) {
         <div>
           <p className="text-xs text-gray-400 mb-3 font-semibold uppercase tracking-wide">Расчётный температурный режим</p>
           <div className="flex items-end gap-3">
-            <div className="flex flex-col gap-1">
-              <span className="text-xs text-gray-400">Т1, °C</span>
-              <input
-                type="number"
-                value={t1}
-                onChange={e => onChange({ ...calcMode, t1: e.target.value })}
-                className="w-20 px-3 py-2 rounded-lg border border-border bg-background text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
-              />
-            </div>
-            <div className="flex flex-col gap-1">
-              <span className="text-xs text-gray-400">Т2, °C</span>
-              <input
-                type="number"
-                value={t2}
-                onChange={e => onChange({ ...calcMode, t2: e.target.value })}
-                className="w-20 px-3 py-2 rounded-lg border border-border bg-background text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
-              />
-            </div>
-            <div className="flex flex-col gap-1">
-              <span className="text-xs text-gray-400">Тв, °C</span>
-              <input
-                type="number"
-                value={tv}
-                onChange={e => onChange({ ...calcMode, tv: e.target.value })}
-                className="w-20 px-3 py-2 rounded-lg border border-border bg-background text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
-              />
-            </div>
+            {renderTempInput('Т1, °C', calcMode, 't1', onChange)}
+            {renderTempInput('Т2, °C', calcMode, 't2', onChange)}
+            {renderTempInput('Тв, °C', calcMode, 'tv', onChange)}
             <div className="flex flex-col gap-1 pb-0.5">
-              <span className="text-xs text-gray-400">Dt (ΔТ)</span>
-              {dtln ? (
-                <span className="text-sm font-bold text-brand-green px-1">= {dtln.toFixed(1)}</span>
+              <span className="text-xs text-gray-400">ΔТ, °C</span>
+              {dtArith ? (
+                <span className="text-sm font-bold text-brand-green px-1">= {dtArith.toFixed(0)}</span>
               ) : (
                 <span className="text-sm font-medium text-brand-red px-1">Ошибка</span>
               )}

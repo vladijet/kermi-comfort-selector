@@ -1,10 +1,11 @@
 import React, { useMemo } from 'react';
 import { ArrowRight, ArrowDown } from 'lucide-react';
-import { calcHeatOutput, calcDtln, PASSPORT_DTLN } from '@/lib/radiatorData';
+import { calcHeatOutput, calcDtln } from '@/lib/radiatorData';
 
 export default function HeatTable({
   radiators,
   calcMode,
+  passportDtln,
   selectedCell,
   onCellSelect
 }) {
@@ -94,8 +95,8 @@ export default function HeatTable({
                 // Use first cell's heat output as representative (all same size should be same)
                 const q70 = cells[0].heat_output_dt70;
                 const n = cells[0].n_exponent;
-                const qCalc = dtln_calc && PASSPORT_DTLN
-                  ? calcHeatOutput(q70, dtln_calc, PASSPORT_DTLN, n)
+                const qCalc = dtln_calc && passportDtln
+                  ? calcHeatOutput(q70, dtln_calc, passportDtln, n)
                   : null;
 
                 return (

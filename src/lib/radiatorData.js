@@ -1,6 +1,7 @@
 import { base44 } from '@/api/base44Client';
 
 // Calculate logarithmic temperature difference (LMTD)
+// Used for heat output calculations (physically accurate)
 export function calcDtln(T1, T2, Tv) {
   T1 = parseFloat(T1);
   T2 = parseFloat(T2);
@@ -12,6 +13,16 @@ export function calcDtln(T1, T2, Tv) {
   const lnRatio = Math.log((T1 - Tv) / (T2 - Tv));
   if (lnRatio === 0) return null;
   return diff / lnRatio;
+}
+
+// Calculate arithmetic mean temperature difference
+// Used for display only — gives a clean, intuitive number for the user
+export function calcDtArith(T1, T2, Tv) {
+  T1 = parseFloat(T1);
+  T2 = parseFloat(T2);
+  Tv = parseFloat(Tv);
+  if (isNaN(T1) || isNaN(T2) || isNaN(Tv)) return null;
+  return (T1 + T2) / 2 - Tv;
 }
 
 // Calculate heat output at custom temperature mode

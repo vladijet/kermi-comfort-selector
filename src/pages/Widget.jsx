@@ -4,12 +4,14 @@ import SeriesTypeSelector from '@/components/widget/SeriesTypeSelector';
 import HeatTable from '@/components/widget/HeatTable';
 import ArticleList from '@/components/widget/ArticleList';
 import { base44 } from '@/api/base44Client';
-import { TYPES_BY_SERIES } from '@/lib/radiatorData';
+import { TYPES_BY_SERIES, calcDtln } from '@/lib/radiatorData';
 
 export default function Widget() {
   const [series, setSeries] = useState('profil');
   const [type, setType] = useState(22);
   const [calcMode, setCalcMode] = useState({ t1: 75, t2: 65, tv: 20 });
+  const [passportMode, setPassportMode] = useState({ t1: 105, t2: 75, tv: 20 });
+  const passportDtln = calcDtln(passportMode.t1, passportMode.t2, passportMode.tv);
   const [selectedCell, setSelectedCell] = useState(null);
   const [radiators, setRadiators] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -61,7 +63,12 @@ export default function Widget() {
         </div>
 
         {/* Temperature mode */}
-        <TemperaturePanel calcMode={calcMode} onChange={setCalcMode} />
+        <TemperaturePanel
+          calcMode={calcMode}
+          onChange={setCalcMode}
+          passportMode={passportMode}
+          onPassportChange={setPassportMode}
+        />
 
         {/* Main content area */}
         <div className="flex flex-col lg:flex-row gap-5">
@@ -93,6 +100,7 @@ export default function Widget() {
                 <HeatTable
                   radiators={radiators}
                   calcMode={calcMode}
+                  passportDtln={passportDtln}
                   selectedCell={selectedCell}
                   onCellSelect={setSelectedCell}
                 />
@@ -141,7 +149,12 @@ export default function Widget() {
             {selectedRadiators.length === 0 ? (
             <p className="text-sm text-muted-foreground">Артикулы не найдены для выбранного размера</p>
             ) : (
-              <ArticleList radiators={selectedRadiators} calcMode={calcMode} />
+              <ArticleList
+                radiators={selectedRadiators}
+                calcMode={calcMode}
+                passportMode={passportMode}
+                passportDtln={passportDtln}
+              />
             )}
           </div>
         )}
