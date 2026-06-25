@@ -54,18 +54,20 @@ export default function HeatTable({
                 </div>
               </div>
             </th>
-            {lengths.map(len => (
-              <th
-                key={len}
-                className={`text-center min-w-[72px] px-1 pb-2 text-xs font-semibold transition-colors ${
-                  selectedCell && selectedCell.length === len
-                    ? 'text-brand-green'
-                    : 'text-muted-foreground'
-                }`}
-              >
-                {len}
-              </th>
-            ))}
+            {lengths.map(len => {
+              const isLenSelected = selectedCell && selectedCell.length === len;
+              return (
+                <th key={len} className="text-center min-w-[72px] px-1 pb-2">
+                  <span className={`inline-flex items-center justify-center w-12 h-8 rounded-full text-xs font-semibold transition-colors ${
+                    isLenSelected
+                      ? 'bg-primary text-primary-foreground'
+                      : 'text-muted-foreground'
+                  }`}>
+                    {len}
+                  </span>
+                </th>
+              );
+            })}
           </tr>
         </thead>
         <tbody>
@@ -103,25 +105,16 @@ export default function HeatTable({
                   <td
                     key={len}
                     onClick={() => onCellSelect({ height, length: len })}
-                    className={`text-center px-1 py-1.5 cursor-pointer transition-all duration-100 ${
+                    className={`text-center px-1 py-1.5 cursor-pointer rounded transition-all duration-100 ${
                       isSelected
-                        ? 'bg-primary-light rounded'
-                        : 'hover:bg-accent'
-                    } ${
-                      selectedCell && (selectedCell.length === len || selectedCell.height === height)
-                        ? 'opacity-100'
-                        : ''
+                        ? 'bg-brand-green/10 ring-2 ring-brand-green ring-inset'
+                        : 'hover:ring-1 hover:ring-brand-green hover:ring-inset'
                     }`}
                   >
-                    <div className="relative">
-                      {isSelected && (
-                        <div className="absolute inset-0 rounded border-2 border-primary pointer-events-none" />
-                      )}
-                      <div className="text-xs text-muted-foreground leading-tight">{Math.round(q70)}</div>
-                      {qCalc && (
-                        <div className="text-sm font-bold text-brand-green leading-tight">{Math.round(qCalc)}</div>
-                      )}
-                    </div>
+                    <div className="text-xs text-muted-foreground leading-tight">{Math.round(q70)}</div>
+                    {qCalc && (
+                      <div className="text-sm font-bold text-brand-green leading-tight">{Math.round(qCalc)}</div>
+                    )}
                   </td>
                 );
               })}

@@ -71,70 +71,37 @@ export default function Widget() {
         />
 
         {/* Main content area */}
-        <div className="flex flex-col lg:flex-row gap-5">
-          {/* Left: Selectors + Table */}
-          <div className="flex-1 min-w-0">
-            <div className="bg-card rounded-2xl border border-border p-5 shadow-sm space-y-5">
+        <div className="bg-card rounded-2xl border border-border p-5 shadow-sm space-y-5">
 
-              {/* Series & Type */}
-              <SeriesTypeSelector
-                series={series}
-                type={type}
-                onSeriesChange={handleSeriesChange}
-                onTypeChange={setType}
-              />
+          {/* Series & Type */}
+          <SeriesTypeSelector
+            series={series}
+            type={type}
+            onSeriesChange={handleSeriesChange}
+            onTypeChange={setType}
+          />
 
-              <div className="border-t border-gray-50" />
+          <div className="border-t border-gray-50" />
 
-              {/* Table */}
-              {loading ? (
-                <div className="flex items-center justify-center h-40">
-                  <div className="w-6 h-6 border-2 border-primary-light border-t-primary rounded-full animate-spin" />
-                </div>
-              ) : radiators.length === 0 ? (
-                <div className="flex flex-col items-center justify-center h-40 text-gray-400">
-                  <p className="text-sm text-muted-foreground">Нет данных для выбранных параметров</p>
-                  <p className="text-xs mt-1 text-muted-foreground/70">Загрузите данные через панель администратора</p>
-                </div>
-              ) : (
-                <HeatTable
-                  radiators={radiators}
-                  calcMode={calcMode}
-                  passportDtln={passportDtln}
-                  selectedCell={selectedCell}
-                  onCellSelect={setSelectedCell}
-                />
-              )}
+          {/* Table */}
+          {loading ? (
+            <div className="flex items-center justify-center h-40">
+              <div className="w-6 h-6 border-2 border-primary-light border-t-primary rounded-full animate-spin" />
             </div>
-          </div>
-
-          {/* Right: Radiator image */}
-          <div className="lg:w-56 xl:w-64">
-            <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden sticky top-4">
-              <div className="aspect-[4/5] bg-secondary flex items-center justify-center">
-                <div className="text-center p-4">
-                  <div className="w-16 h-16 mx-auto rounded-xl bg-gray-200 flex items-center justify-center mb-3">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="1.5">
-                      <rect x="3" y="3" width="18" height="18" rx="2" />
-                      <path d="M3 9h18M3 15h18M9 3v18M15 3v18" />
-                    </svg>
-                  </div>
-                  <p className="text-xs text-muted-foreground font-medium">Изображение радиатора</p>
-                  <p className="text-xs text-muted-foreground/60 mt-1">
-                    {series === 'profil' ? `Профиль Тип ${type}` : `План Тип ${type}`}
-                  </p>
-                </div>
-              </div>
-              {selectedCell && (
-                <div className="px-4 py-3 border-t border-border">
-                  <p className="text-xs text-muted-foreground font-medium">Выбрано</p>
-                  <p className="text-sm font-bold text-brand-green mt-0.5">
-                    В{selectedCell.height} × Д{selectedCell.length} мм
-                  </p>
-                </div>
-              )}
+          ) : radiators.length === 0 ? (
+            <div className="flex flex-col items-center justify-center h-40 text-gray-400">
+              <p className="text-sm text-muted-foreground">Нет данных для выбранных параметров</p>
+              <p className="text-xs mt-1 text-muted-foreground/70">Загрузите данные через панель администратора</p>
             </div>
-          </div>
+          ) : (
+            <HeatTable
+              radiators={radiators}
+              calcMode={calcMode}
+              passportDtln={passportDtln}
+              selectedCell={selectedCell}
+              onCellSelect={setSelectedCell}
+            />
+          )}
         </div>
 
         {/* Article list */}
