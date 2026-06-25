@@ -2,7 +2,7 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 import * as XLSX from 'npm:xlsx@0.18.5';
 
 // Parse uploaded Excel file and create Radiator records directly on the server.
-// Avoids the flaky ExtractDataFromUploadedFile integration that fails with ERR_FAILED.
+// Handles numbers with comma decimal separators and any cell formatting.
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
@@ -11,7 +11,6 @@ Deno.serve(async (req) => {
 
     const body = await req.json();
     const fileUrl = body.file_url;
-    const uploadType = body.upload_type || 'price_list';
     const uploadRecordId = body.upload_record_id;
 
     if (!fileUrl) {
@@ -26,30 +25,36 @@ Deno.serve(async (req) => {
     const ab = await fileResp.arrayBuffer();
     const wb = XLSX.read(new Uint8Array(ab), { type: 'array' });
 
-    // Use the first sheet
     const sheetName = wb.SheetNames[0];
     const ws = wb.Sheets[sheetName];
-    // raw:false so numbers parsed as JS numbers, blank cells as empty strings
-    // header:1 returns rows as arrays-of-arrays — we find the article row by scanning
-    const rows = XLSX.utils.sheet_to_json(ws, { defval: null, raw: true });
+    // Read as text to avoid Excel locale number issues, then parse ourselves
+    const rows = XLSX.utils.sheet_to_json(ws, { defval: null, raw: false });
+
     if (!rows || !rows.length) {
-      // Update upload record if provided
       if (uploadRecordId) {
         await base44.entities.DataUpload.update(uploadRecordId, {
           status: 'error',
           error_message: 'Файл не содержит распознанных записей'
         });
       }
-      return Response.json({ status: 'error', details: 'Файл не содержит распознанных записей', records_count: 0, debug: { headers: [], sheetNames: wb.SheetNames } });
+      return Response.json({ status: 'error', details: 'Файл не содержит распознанных записей', records_count: 0 });
     }
 
+    // Robust number parser: handles "48,5", "48.5", 48.5, " 1,28 ", etc.
     const num = (v) => {
       if (v === null || v === undefined || v === '') return null;
-      const n = parseFloat(String(v).replace(',', '.'));
+      if (typeof v === 'number') return isNaN(v) ? null : v;
+      let s = String(v).trim().replace(/\s/g, '').replace(/\u00A0/g, '');
+      // remove thousands separators if any (e.g. "1.234,56" -> "1234,56")
+      s = s.replace(/\.(?=\d{3}(\D|$))/g, '');
+      s = s.replace(',', '.');
+      s = s.replace(/[^0-9.\-]/g, '');
+      if (s === '' || s === '-' || s === '.') return null;
+      const n = parseFloat(s);
       return isNaN(n) ? null : n;
     };
 
-    // Helper to read a row field by several possible key variants (case-insensitive, trimmed)
+    // Case-insensitive field lookup with fallbacks
     const pick = (r, keys) => {
       if (!r) return null;
       const lowerMap = {};
@@ -63,7 +68,7 @@ Deno.serve(async (req) => {
 
     const processedRecords = rows
       .map((r) => {
-        const articleRaw = pick(r, ['article', 'артикул', 'art']);
+        const articleRaw = pick(r, ['article', 'артикул', 'art', 'article_code']);
         if (!articleRaw) return null;
         const art = String(articleRaw).trim();
 
@@ -75,7 +80,6 @@ Deno.serve(async (req) => {
         else if (art.startsWith('FTV')) { series = 'profil'; connection_type = 'FTV'; }
         else if (art.startsWith('FK0')) { series = 'profil'; connection_type = 'FK0'; }
 
-        // Prefer the explicit "type" column from the row (e.g. 10, 20, 33)
         const typeFromRow = pick(r, ['type', 'тип', 'radiator_type']);
         const typeMatch = art.match(/^[A-Z]+\d*(\d{2})/);
         const radiator_type = num(typeFromRow) ?? (typeMatch ? parseInt(typeMatch[1], 10) : null);
@@ -91,11 +95,11 @@ Deno.serve(async (req) => {
           length: num(pick(r, ['length_mm', 'length', 'длина'])),
           depth: num(pick(r, ['depth_mm', 'depth', 'глубина'])),
           heat_output_dt70: num(pick(r, ['heat_output_dt70_w', 'heat_output_dt70', 'теплоотдача'])),
-          n_exponent: num(pick(r, ['n_exponent', 'n'])) || 1.28,
+          n_exponent: num(pick(r, ['n_exponent', 'n'])) ?? 1.28,
           weight_net: num(pick(r, ['net_weight_kg', 'weight_net', 'вес_нетто'])),
           weight_gross: num(pick(r, ['gross_weight_kg', 'weight_gross', 'вес_брутто'])),
           volume: num(pick(r, ['coolant_volume_l', 'volume', 'объем'])),
-          price: num(pick(r, ['price', 'цена'])) || null
+          price: num(pick(r, ['price', 'цена']))
         };
       })
       .filter(Boolean);
@@ -111,11 +115,7 @@ Deno.serve(async (req) => {
         status: 'error',
         details: 'Не найдено строк с артикулом',
         records_count: 0,
-        debug: {
-          totalRows: rows.length,
-          headers: Object.keys(rows[0]),
-          firstRow: rows[0]
-        }
+        debug: { totalRows: rows.length, headers: Object.keys(rows[0]), firstRow: rows[0] }
       });
     }
 

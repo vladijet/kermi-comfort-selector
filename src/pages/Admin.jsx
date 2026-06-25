@@ -67,6 +67,9 @@ export default function Admin() {
         throw new Error(msg);
       }
 
+      if (result.records_count === 0) {
+        throw new Error('Файл обработан, но не найдено строк с артикулом');
+      }
       setStatus({ type: 'success', message: `Успешно загружено ${result.records_count} позиций!` });
       await loadData();
 
