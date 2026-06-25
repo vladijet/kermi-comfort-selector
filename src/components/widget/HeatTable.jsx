@@ -40,18 +40,23 @@ export default function HeatTable({
       <table className="border-collapse" style={{ minWidth: '100%' }}>
         <thead>
           <tr>
-            <th className="sticky left-0 z-10 bg-white min-w-[70px] w-[70px]">
-              <div className="text-[11px] text-gray-400 font-semibold text-left px-2 pb-1">Высота</div>
+            <th className="sticky left-0 z-10 bg-white min-w-[70px] w-[70px] p-0">
+              <div className="relative w-[70px] h-[44px]">
+                <svg
+                  className="absolute inset-0 w-full h-full pointer-events-none"
+                  viewBox="0 0 70 44"
+                  preserveAspectRatio="none"
+                >
+                  <line x1="0" y1="0" x2="70" y2="44" stroke="#e5e7eb" strokeWidth="1" />
+                </svg>
+                <span className="absolute top-1 right-1.5 text-[11px] text-gray-500 font-semibold">
+                  Длина
+                </span>
+                <span className="absolute bottom-1 left-2 text-[11px] text-gray-500 font-semibold">
+                  Высота
+                </span>
+              </div>
             </th>
-            <th
-              colSpan={lengths.length}
-              className="text-[11px] text-gray-400 font-semibold text-center pb-1"
-            >
-              Длина
-            </th>
-          </tr>
-          <tr>
-            <th className="sticky left-0 z-10 bg-white min-w-[70px] w-[70px]" />
             {lengths.map(len => (
               <th
                 key={len}
