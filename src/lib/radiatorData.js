@@ -28,7 +28,7 @@ export const PASSPORT_DTLN = calcDtln(PASSPORT_T1, PASSPORT_T2, PASSPORT_TV);
 
 // Series definitions
 export const SERIES = [
-  { id: 'profil', label: 'Стандартные профильные' },
+  { id: 'profil', label: 'Стандартные (Профиль)' },
   { id: 'plan', label: 'Гладкие (План)' }
 ];
 

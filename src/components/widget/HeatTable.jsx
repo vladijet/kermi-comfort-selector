@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { ArrowRight, ArrowDown } from 'lucide-react';
 import { calcHeatOutput, calcDtln, PASSPORT_DTLN } from '@/lib/radiatorData';
 
 export default function HeatTable({
@@ -40,21 +41,16 @@ export default function HeatTable({
       <table className="border-collapse" style={{ minWidth: '100%' }}>
         <thead>
           <tr>
-            <th className="sticky left-0 z-10 bg-white min-w-[70px] w-[70px] p-0">
-              <div className="relative w-[70px] h-[44px]">
-                <svg
-                  className="absolute inset-0 w-full h-full pointer-events-none"
-                  viewBox="0 0 70 44"
-                  preserveAspectRatio="none"
-                >
-                  <line x1="0" y1="0" x2="70" y2="44" stroke="#e5e7eb" strokeWidth="1" />
-                </svg>
-                <span className="absolute top-1 right-1.5 text-[11px] text-gray-500 font-semibold">
+            <th className="sticky left-0 z-10 bg-white min-w-[70px] w-[70px] p-0 align-bottom">
+              <div className="flex flex-col gap-0.5 px-2 py-1.5 text-gray-500">
+                <div className="flex items-center gap-0.5 text-[11px] font-semibold leading-none">
                   Длина
-                </span>
-                <span className="absolute bottom-1 left-2 text-[11px] text-gray-500 font-semibold">
+                  <ArrowRight size={11} strokeWidth={2.5} />
+                </div>
+                <div className="flex items-center gap-0.5 text-[11px] font-semibold leading-none">
                   Высота
-                </span>
+                  <ArrowDown size={11} strokeWidth={2.5} />
+                </div>
               </div>
             </th>
             {lengths.map(len => (
