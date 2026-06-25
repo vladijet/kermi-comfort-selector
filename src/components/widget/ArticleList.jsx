@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Copy, Check } from 'lucide-react';
 import { calcHeatOutput, calcDtln, calcDtArith, CONNECTION_LABELS, RADIATOR_IMAGES } from '@/lib/radiatorData';
+import BracketInfo from '@/components/widget/BracketInfo';
 
 export default function ArticleList({ radiators, calcMode, passportMode, passportDtln }) {
   const [copiedId, setCopiedId] = useState(null);
@@ -59,6 +60,11 @@ export default function ArticleList({ radiators, calcMode, passportMode, passpor
             );
           })()}
           <div className="divide-y divide-gray-50">
+            <BracketInfo
+              connectionType={connType}
+              height={items[0].height}
+              length={items[0].length}
+            />
             {items.map(r => {
               const qCalc = dtln_calc && passportDtln
                 ? calcHeatOutput(r.heat_output_dt70, dtln_calc, passportDtln, r.n_exponent)

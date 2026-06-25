@@ -98,6 +98,52 @@ export async function loadRadiators(series, type) {
   return results;
 }
 
+// Mounting brackets (Крепления)
+// Wall brackets that ship in the radiator kit. FTU has none in kit — ordered separately.
+export const WALL_BRACKET_KIT_TYPES = ['FK0', 'PK0', 'FTV', 'PTV'];
+export const LONG_LENGTH_THRESHOLD = 1700;
+
+const WALL_BRACKETS_STANDARD = {
+  300: 'ZB00122626',
+  400: 'ZB00147749',
+  500: 'ZB00119538',
+  600: 'ZB00154388'
+};
+
+const WALL_BRACKETS_FTU = {
+  200: 'ZB02970200',
+  300: 'ZB02970300',
+  400: 'ZB02970400',
+  500: 'ZB02970500',
+  600: 'ZB02970600'
+};
+
+export const BRACKET_NAMES = {
+  ZB00122626: 'Настенный кронштейн, монтажная высота 300 мм',
+  ZB00147749: 'Настенный кронштейн, монтажная высота 400 мм',
+  ZB00119538: 'Настенный кронштейн, монтажная высота 500 мм',
+  ZB00154388: 'Настенный кронштейн, монтажная высота 600 мм',
+  ZB02970200: 'Настенный кронштейн FTU, монтажная высота 200 мм',
+  ZB02970300: 'Настенный кронштейн FTU, монтажная высота 300 мм',
+  ZB02970400: 'Настенный кронштейн FTU, монтажная высота 400 мм',
+  ZB02970500: 'Настенный кронштейн FTU, монтажная высота 500 мм',
+  ZB02970600: 'Настенный кронштейн FTU, монтажная высота 600 мм'
+};
+
+// Returns wall bracket info for a given radiator (connection type, height, length)
+// inKit = true  -> bracket included in the kit (count 2, or 3 when length >= 1700 mm)
+// inKit = false -> bracket ordered separately (FTU)
+export function getMountingInfo(connectionType, height, length) {
+  height = Number(height);
+  length = Number(length);
+  const wallSet = connectionType === 'FTU' ? WALL_BRACKETS_FTU : WALL_BRACKETS_STANDARD;
+  const article = wallSet[height];
+  if (!article) return null;
+  const inKit = WALL_BRACKET_KIT_TYPES.includes(connectionType);
+  const count = length >= LONG_LENGTH_THRESHOLD ? 3 : 2;
+  return { article, name: BRACKET_NAMES[article], inKit, count };
+}
+
 export function groupRadiatorsBySize(radiators) {
   // Returns { heights: [], lengths: [], grid: { height: { length: [radiator, ...] } } }
   const heightSet = new Set();
