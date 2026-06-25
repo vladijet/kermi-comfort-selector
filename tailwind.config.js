@@ -22,7 +22,13 @@ module.exports = {
   			},
   			primary: {
   				DEFAULT: 'hsl(var(--primary))',
-  				foreground: 'hsl(var(--primary-foreground))'
+  				foreground: 'hsl(var(--primary-foreground))',
+  				dark: 'hsl(var(--primary-d))',
+  				light: 'hsl(var(--primary-l))'
+  			},
+  			brand: {
+  				green: 'hsl(var(--brand-green))',
+  				red: 'hsl(var(--brand-red))'
   			},
   			secondary: {
   				DEFAULT: 'hsl(var(--secondary))',

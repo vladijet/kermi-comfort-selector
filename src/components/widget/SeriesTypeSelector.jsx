@@ -8,7 +8,7 @@ export default function SeriesTypeSelector({ series, type, onSeriesChange, onTyp
     <div className="space-y-4">
       {/* Series selection */}
       <div className="flex items-center gap-4">
-        <span className="text-sm font-semibold text-gray-500 w-10">Вид</span>
+        <span className="text-sm font-semibold text-muted-foreground w-10">Вид</span>
         <div className="flex flex-wrap gap-2">
           {SERIES.map(s => (
             <button
@@ -19,8 +19,8 @@ export default function SeriesTypeSelector({ series, type, onSeriesChange, onTyp
               }}
               className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-150 ${
                 series === s.id
-                  ? 'bg-teal-500 text-white shadow-sm'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  ? 'bg-primary text-primary-foreground shadow-sm hover:bg-primary-dark'
+                  : 'bg-secondary text-muted-foreground hover:bg-muted'
               }`}
             >
               {s.label}
@@ -31,7 +31,7 @@ export default function SeriesTypeSelector({ series, type, onSeriesChange, onTyp
 
       {/* Type selection */}
       <div className="flex items-center gap-4">
-        <span className="text-sm font-semibold text-gray-500 w-10">Тип</span>
+        <span className="text-sm font-semibold text-muted-foreground w-10">Тип</span>
         <div className="flex flex-wrap gap-2">
           {types.map(t => (
             <button
@@ -39,8 +39,8 @@ export default function SeriesTypeSelector({ series, type, onSeriesChange, onTyp
               onClick={() => onTypeChange(t)}
               className={`w-10 h-10 rounded-full text-sm font-semibold transition-all duration-150 ${
                 type === t
-                  ? 'bg-teal-500 text-white shadow-sm'
-                  : 'bg-gray-700 text-white hover:bg-gray-600'
+                  ? 'bg-primary text-primary-foreground shadow-sm hover:bg-primary-dark'
+                  : 'bg-foreground text-background hover:bg-foreground/80'
               }`}
             >
               {t}

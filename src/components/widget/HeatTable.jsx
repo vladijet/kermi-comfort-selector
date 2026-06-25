@@ -41,15 +41,15 @@ export default function HeatTable({
       <table className="border-collapse" style={{ minWidth: '100%' }}>
         <thead>
           <tr>
-            <th className="sticky left-0 z-10 bg-white min-w-[70px] w-[70px] p-0 align-bottom">
-              <div className="flex flex-col gap-0.5 px-2 py-1.5 text-gray-500">
+            <th className="sticky left-0 z-10 bg-background min-w-[70px] w-[70px] p-0 align-bottom">
+              <div className="flex flex-col gap-0.5 px-2 py-1.5 text-muted-foreground">
                 <div className="flex items-center gap-0.5 text-[11px] font-semibold leading-none">
                   Длина
-                  <ArrowRight size={11} strokeWidth={2.5} />
+                  <ArrowRight size={11} strokeWidth={2.5} className="text-brand-green" />
                 </div>
                 <div className="flex items-center gap-0.5 text-[11px] font-semibold leading-none">
                   Высота
-                  <ArrowDown size={11} strokeWidth={2.5} />
+                  <ArrowDown size={11} strokeWidth={2.5} className="text-primary" />
                 </div>
               </div>
             </th>
@@ -58,8 +58,8 @@ export default function HeatTable({
                 key={len}
                 className={`text-center min-w-[72px] px-1 pb-2 text-xs font-semibold transition-colors ${
                   selectedCell && selectedCell.length === len
-                    ? 'text-teal-600'
-                    : 'text-gray-500'
+                    ? 'text-brand-green'
+                    : 'text-muted-foreground'
                 }`}
               >
                 {len}
@@ -69,12 +69,12 @@ export default function HeatTable({
         </thead>
         <tbody>
           {heights.map((height, hIdx) => (
-            <tr key={height} className={hIdx % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+            <tr key={height} className={hIdx % 2 === 0 ? 'bg-background' : 'bg-secondary'}>
               <td className="sticky left-0 z-10 bg-inherit px-2 py-2">
                 <span className={`inline-flex items-center justify-center w-12 h-8 rounded-full text-sm font-semibold transition-colors ${
                   selectedCell && selectedCell.height === height
-                    ? 'bg-teal-500 text-white'
-                    : 'bg-gray-700 text-white'
+                    ? 'bg-primary text-primary-foreground'
+                    : 'bg-foreground text-background'
                 }`}>
                   {height}
                 </span>
@@ -86,7 +86,7 @@ export default function HeatTable({
                 if (!cells || !cells.length) {
                   return (
                     <td key={len} className="text-center px-1 py-2">
-                      <div className="text-gray-300 text-xs">—</div>
+                      <div className="text-muted-foreground/40 text-xs">—</div>
                     </td>
                   );
                 }
@@ -104,8 +104,8 @@ export default function HeatTable({
                     onClick={() => onCellSelect({ height, length: len })}
                     className={`text-center px-1 py-1.5 cursor-pointer transition-all duration-100 ${
                       isSelected
-                        ? 'bg-teal-50 rounded'
-                        : 'hover:bg-gray-100'
+                        ? 'bg-primary-light rounded'
+                        : 'hover:bg-accent'
                     } ${
                       selectedCell && (selectedCell.length === len || selectedCell.height === height)
                         ? 'opacity-100'
@@ -114,11 +114,11 @@ export default function HeatTable({
                   >
                     <div className="relative">
                       {isSelected && (
-                        <div className="absolute inset-0 rounded border-2 border-teal-400 pointer-events-none" />
+                        <div className="absolute inset-0 rounded border-2 border-primary pointer-events-none" />
                       )}
-                      <div className="text-xs text-gray-500 leading-tight">{Math.round(q70)}</div>
+                      <div className="text-xs text-muted-foreground leading-tight">{Math.round(q70)}</div>
                       {qCalc && (
-                        <div className="text-sm font-bold text-teal-600 leading-tight">{Math.round(qCalc)}</div>
+                        <div className="text-sm font-bold text-brand-green leading-tight">{Math.round(qCalc)}</div>
                       )}
                     </div>
                   </td>

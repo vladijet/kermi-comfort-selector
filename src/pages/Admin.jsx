@@ -104,7 +104,7 @@ export default function Admin() {
       <div className="bg-white border-b border-gray-100 shadow-sm">
         <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-1 h-7 bg-teal-500 rounded-full" />
+            <div className="w-1 h-7 bg-primary rounded-full" />
             <div>
               <h1 className="text-base font-bold text-gray-800">Панель администратора</h1>
               <p className="text-xs text-gray-400">Kermi Comfort — управление данными</p>
@@ -112,7 +112,7 @@ export default function Admin() {
           </div>
           <button
             onClick={() => navigate('/')}
-            className="text-sm text-teal-600 font-medium hover:underline"
+            className="text-sm text-brand-green font-medium hover:underline"
           >
             ← Открыть виджет
           </button>
@@ -155,8 +155,8 @@ export default function Admin() {
                 onClick={() => setUploadType(t.id)}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                   uploadType === t.id
-                    ? 'bg-teal-500 text-white shadow-sm'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    ? 'bg-primary text-primary-foreground shadow-sm'
+                    : 'bg-secondary text-muted-foreground hover:bg-muted'
                 }`}
               >
                 {t.label}
@@ -168,11 +168,11 @@ export default function Admin() {
           <div
             onClick={() => !uploading && fileInputRef.current?.click()}
             className={`border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center gap-3 cursor-pointer transition-colors ${
-              uploading ? 'border-gray-200 bg-gray-50 cursor-not-allowed' : 'border-gray-200 hover:border-teal-400 hover:bg-teal-50'
+              uploading ? 'border-border bg-secondary cursor-not-allowed' : 'border-border hover:border-primary hover:bg-primary-light'
             }`}
           >
             {uploading ? (
-              <Loader2 size={32} className="text-teal-400 animate-spin" />
+              <Loader2 size={32} className="text-primary animate-spin" />
             ) : (
               <FileSpreadsheet size={32} className="text-gray-300" />
             )}
@@ -194,13 +194,13 @@ export default function Admin() {
           {/* Status message */}
           {status && (
             <div className={`mt-4 flex items-start gap-3 px-4 py-3 rounded-xl text-sm ${
-              status.type === 'success' ? 'bg-green-50 text-green-700' :
-              status.type === 'error' ? 'bg-red-50 text-red-700' :
-              'bg-teal-50 text-teal-700'
+              status.type === 'success' ? 'bg-brand-green/10 text-brand-green' :
+              status.type === 'error' ? 'bg-brand-red/10 text-brand-red' :
+              'bg-primary-light text-foreground'
             }`}>
               {status.type === 'success' ? <CheckCircle size={16} className="mt-0.5 shrink-0" /> :
-               status.type === 'error' ? <AlertCircle size={16} className="mt-0.5 shrink-0" /> :
-               <Loader2 size={16} className="mt-0.5 shrink-0 animate-spin" />}
+               status.type === 'error' ? <AlertCircle size={16} className="mt-0.5 shrink-0 text-brand-red" /> :
+               <Loader2 size={16} className="mt-0.5 shrink-0 animate-spin text-primary" />}
               <span>{status.message}</span>
             </div>
           )}
@@ -218,12 +218,12 @@ export default function Admin() {
         </div>
 
         {/* Clear database */}
-        <div className="bg-white rounded-2xl border border-red-100 p-6 shadow-sm">
-          <h2 className="text-base font-bold text-gray-800 mb-2">Опасная зона</h2>
-          <p className="text-sm text-gray-500 mb-4">Полная очистка базы данных радиаторов. Действие необратимо.</p>
+        <div className="bg-white rounded-2xl border border-brand-red/30 p-6 shadow-sm">
+          <h2 className="text-base font-bold text-foreground mb-2">Опасная зона</h2>
+          <p className="text-sm text-muted-foreground mb-4">Полная очистка базы данных радиаторов. Действие необратимо.</p>
           <button
             onClick={clearAllRadiators}
-            className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-600 border border-red-200 rounded-lg text-sm font-medium hover:bg-red-100 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-brand-red/10 text-brand-red border border-brand-red/40 rounded-lg text-sm font-medium hover:bg-brand-red/20 transition-colors"
           >
             <Trash2 size={14} />
             Очистить базу данных
@@ -240,9 +240,9 @@ export default function Admin() {
               {uploads.map(u => (
                 <div key={u.id} className="px-6 py-4 flex items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
-                    {u.status === 'success' ? <CheckCircle size={16} className="text-green-500" /> :
-                     u.status === 'error' ? <AlertCircle size={16} className="text-red-400" /> :
-                     <Loader2 size={16} className="text-teal-400 animate-spin" />}
+                    {u.status === 'success' ? <CheckCircle size={16} className="text-brand-green" /> :
+                     u.status === 'error' ? <AlertCircle size={16} className="text-brand-red/70" /> :
+                     <Loader2 size={16} className="text-primary animate-spin" />}
                     <div>
                       <p className="text-sm font-medium text-gray-700">{u.filename}</p>
                       <p className="text-xs text-gray-400">
@@ -252,9 +252,9 @@ export default function Admin() {
                     </div>
                   </div>
                   <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
-                    u.status === 'success' ? 'bg-green-100 text-green-700' :
-                    u.status === 'error' ? 'bg-red-100 text-red-700' :
-                    'bg-teal-100 text-teal-700'
+                    u.status === 'success' ? 'bg-brand-green/10 text-brand-green' :
+                    u.status === 'error' ? 'bg-brand-red/10 text-brand-red' :
+                    'bg-primary-light text-foreground'
                   }`}>
                     {u.status === 'success' ? 'Успешно' : u.status === 'error' ? 'Ошибка' : 'В процессе'}
                   </span>

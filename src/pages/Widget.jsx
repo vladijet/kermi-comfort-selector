@@ -48,15 +48,15 @@ export default function Widget() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-6" style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+    <div className="min-h-screen bg-background p-4 md:p-6" style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}>
       <div className="max-w-6xl mx-auto space-y-5">
 
         {/* Header */}
         <div className="flex items-center gap-3">
-          <div className="w-1 h-8 bg-teal-500 rounded-full" />
+          <div className="w-1 h-8 bg-primary rounded-full" />
           <div>
-            <h1 className="text-lg font-bold text-gray-800 leading-none">Kermi Comfort</h1>
-            <p className="text-xs text-gray-400 mt-0.5">Подбор стальных панельных радиаторов</p>
+            <h1 className="text-lg font-bold text-foreground leading-none">Kermi Comfort</h1>
+            <p className="text-xs text-muted-foreground mt-0.5">Подбор стальных панельных радиаторов</p>
           </div>
         </div>
 
@@ -67,7 +67,7 @@ export default function Widget() {
         <div className="flex flex-col lg:flex-row gap-5">
           {/* Left: Selectors + Table */}
           <div className="flex-1 min-w-0">
-            <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm space-y-5">
+            <div className="bg-card rounded-2xl border border-border p-5 shadow-sm space-y-5">
 
               {/* Series & Type */}
               <SeriesTypeSelector
@@ -82,12 +82,12 @@ export default function Widget() {
               {/* Table */}
               {loading ? (
                 <div className="flex items-center justify-center h-40">
-                  <div className="w-6 h-6 border-2 border-teal-200 border-t-teal-500 rounded-full animate-spin" />
+                  <div className="w-6 h-6 border-2 border-primary-light border-t-primary rounded-full animate-spin" />
                 </div>
               ) : radiators.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-40 text-gray-400">
-                  <p className="text-sm">Нет данных для выбранных параметров</p>
-                  <p className="text-xs mt-1">Загрузите данные через панель администратора</p>
+                  <p className="text-sm text-muted-foreground">Нет данных для выбранных параметров</p>
+                  <p className="text-xs mt-1 text-muted-foreground/70">Загрузите данные через панель администратора</p>
                 </div>
               ) : (
                 <HeatTable
@@ -102,8 +102,8 @@ export default function Widget() {
 
           {/* Right: Radiator image */}
           <div className="lg:w-56 xl:w-64">
-            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden sticky top-4">
-              <div className="aspect-[4/5] bg-gray-50 flex items-center justify-center">
+            <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden sticky top-4">
+              <div className="aspect-[4/5] bg-secondary flex items-center justify-center">
                 <div className="text-center p-4">
                   <div className="w-16 h-16 mx-auto rounded-xl bg-gray-200 flex items-center justify-center mb-3">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="1.5">
@@ -111,16 +111,16 @@ export default function Widget() {
                       <path d="M3 9h18M3 15h18M9 3v18M15 3v18" />
                     </svg>
                   </div>
-                  <p className="text-xs text-gray-400 font-medium">Изображение радиатора</p>
-                  <p className="text-xs text-gray-300 mt-1">
+                  <p className="text-xs text-muted-foreground font-medium">Изображение радиатора</p>
+                  <p className="text-xs text-muted-foreground/60 mt-1">
                     {series === 'profil' ? `Профиль Тип ${type}` : `План Тип ${type}`}
                   </p>
                 </div>
               </div>
               {selectedCell && (
-                <div className="px-4 py-3 border-t border-gray-100">
-                  <p className="text-xs text-gray-500 font-medium">Выбрано</p>
-                  <p className="text-sm font-bold text-teal-600 mt-0.5">
+                <div className="px-4 py-3 border-t border-border">
+                  <p className="text-xs text-muted-foreground font-medium">Выбрано</p>
+                  <p className="text-sm font-bold text-brand-green mt-0.5">
                     В{selectedCell.height} × Д{selectedCell.length} мм
                   </p>
                 </div>
@@ -131,15 +131,15 @@ export default function Widget() {
 
         {/* Article list */}
         {selectedCell && (
-          <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
+          <div className="bg-card rounded-2xl border border-border p-5 shadow-sm">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-1.5 h-1.5 rounded-full bg-teal-500" />
-              <h3 className="text-sm font-semibold text-gray-700">
+              <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+              <h3 className="text-sm font-semibold text-foreground">
                 Доступные артикулы — В{selectedCell.height} × Д{selectedCell.length} мм
               </h3>
             </div>
             {selectedRadiators.length === 0 ? (
-              <p className="text-sm text-gray-400">Артикулы не найдены для выбранного размера</p>
+            <p className="text-sm text-muted-foreground">Артикулы не найдены для выбранного размера</p>
             ) : (
               <ArticleList radiators={selectedRadiators} calcMode={calcMode} />
             )}

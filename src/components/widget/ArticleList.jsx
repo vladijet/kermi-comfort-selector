@@ -60,9 +60,9 @@ export default function ArticleList({ radiators, calcMode }) {
                       title="Скопировать артикул"
                     >
                       {isCopied ? (
-                        <Check size={14} className="text-teal-500" />
+                        <Check size={14} className="text-brand-green" />
                       ) : (
-                        <Copy size={14} className="text-gray-400 hover:text-teal-500 transition-colors" />
+                        <Copy size={14} className="text-muted-foreground hover:text-brand-green transition-colors" />
                       )}
                       {isCopied && (
                         <span className="absolute -top-7 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap z-50">
@@ -83,7 +83,7 @@ export default function ArticleList({ radiators, calcMode }) {
                     {qCalc && (
                       <>
                         <span className="text-gray-300">/</span>
-                        <span className="font-bold text-teal-600">{Math.round(qCalc)} Вт</span>
+                        <span className="font-bold text-brand-green">{Math.round(qCalc)} Вт</span>
                       </>
                     )}
                   </div>
