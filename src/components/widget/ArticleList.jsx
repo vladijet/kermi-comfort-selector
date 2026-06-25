@@ -100,16 +100,16 @@ export default function ArticleList({ radiators, calcMode, passportMode, passpor
                       {qCalc && (
                         <>
                           <span className="text-gray-300">/</span>
-                          <span className="font-bold text-brand-green">{Math.round(qCalc)} Вт</span>
+                          <span className="font-bold text-kermi-heat">{Math.round(qCalc)} Вт</span>
                         </>
                       )}
                     </div>
-                    <div className="flex items-center gap-2 text-[10px] text-gray-400 font-medium">
-                      <span>ΔТ пасп {dtArithPassport ? dtArithPassport.toFixed(0) : '—'}°</span>
+                    <div className="flex items-center gap-2 text-[10px] font-medium">
+                      <span className="text-gray-400">ΔТ пасп {dtArithPassport ? dtArithPassport.toFixed(0) : '—'}°</span>
                       {qCalc && (
                         <>
                           <span className="text-transparent">/</span>
-                          <span>ΔТ расч {dtArithCalc ? dtArithCalc.toFixed(0) : '—'}°</span>
+                          <span className="text-kermi-heat">ΔТ расч {dtArithCalc ? dtArithCalc.toFixed(0) : '—'}°</span>
                         </>
                       )}
                     </div>

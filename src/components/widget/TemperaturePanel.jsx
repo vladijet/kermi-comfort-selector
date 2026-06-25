@@ -41,7 +41,7 @@ export default function TemperaturePanel({ calcMode, onChange, passportMode, onP
 
         {/* Calculated mode */}
         <div>
-          <p className="text-xs text-gray-400 mb-3 font-semibold uppercase tracking-wide">Расчётный температурный режим</p>
+          <p className="text-xs text-kermi-heat mb-3 font-semibold uppercase tracking-wide">Расчётный температурный режим</p>
           <div className="flex items-end gap-3">
             {renderTempInput('Т1, °C', calcMode, 't1', onChange)}
             {renderTempInput('Т2, °C', calcMode, 't2', onChange)}
