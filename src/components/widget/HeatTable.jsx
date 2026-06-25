@@ -41,8 +41,17 @@ export default function HeatTable({
         <thead>
           <tr>
             <th className="sticky left-0 z-10 bg-white min-w-[70px] w-[70px]">
-              <div className="text-xs text-gray-400 font-semibold text-left px-2 pb-2">Высота</div>
+              <div className="text-[11px] text-gray-400 font-semibold text-left px-2 pb-1">Высота</div>
             </th>
+            <th
+              colSpan={lengths.length}
+              className="text-[11px] text-gray-400 font-semibold text-center pb-1"
+            >
+              Длина
+            </th>
+          </tr>
+          <tr>
+            <th className="sticky left-0 z-10 bg-white min-w-[70px] w-[70px]" />
             {lengths.map(len => (
               <th
                 key={len}
