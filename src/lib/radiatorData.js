@@ -38,7 +38,7 @@ export const TYPES_BY_SERIES = {
 };
 
 export const CONNECTION_BY_SERIES = {
-  profil: ['FK0', 'FTU'],
+  profil: ['FK0', 'FTU', 'FTV'],
   plan: ['PK0', 'PTV']
 };
 

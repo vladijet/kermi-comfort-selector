@@ -22,7 +22,7 @@ export default function Widget() {
     setLoading(true);
     base44.entities.Radiator.filter(
       { series, radiator_type: type },
-      'height,length',
+      'height',
       500
     ).then(data => {
       setRadiators(data);
