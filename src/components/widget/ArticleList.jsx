@@ -60,11 +60,6 @@ export default function ArticleList({ radiators, calcMode, passportMode, passpor
             );
           })()}
           <div className="divide-y divide-gray-50">
-            <BracketInfo
-              connectionType={connType}
-              height={items[0].height}
-              length={items[0].length}
-            />
             {items.map(r => {
               const qCalc = dtln_calc && passportDtln
                 ? calcHeatOutput(r.heat_output_dt70, dtln_calc, passportDtln, r.n_exponent)
@@ -131,6 +126,11 @@ export default function ArticleList({ radiators, calcMode, passportMode, passpor
               );
             })}
           </div>
+          <BracketInfo
+            connectionType={connType}
+            height={items[0].height}
+            length={items[0].length}
+          />
         </div>
       ))}
     </div>
