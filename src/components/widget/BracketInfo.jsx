@@ -11,10 +11,21 @@ export default function BracketInfo({ connectionType, height, length, radiatorTy
   const isLong = Number(length) >= LONG_LENGTH_THRESHOLD;
 
   const copyArticle = () => {
-    navigator.clipboard.writeText(info.article).then(() => {
+    const el = document.createElement('textarea');
+    el.value = info.article;
+    el.setAttribute('readonly', '');
+    el.style.position = 'absolute';
+    el.style.left = '-9999px';
+    document.body.appendChild(el);
+    el.select();
+    try {
+      document.execCommand('copy');
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    });
+    } catch (err) {
+      // silent
+    }
+    document.body.removeChild(el);
   };
 
   return (

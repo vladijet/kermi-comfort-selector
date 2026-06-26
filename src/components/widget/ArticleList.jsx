@@ -11,22 +11,22 @@ export default function ArticleList({ radiators, calcMode, passportMode, passpor
   const dtArithCalc = calcDtArith(calcMode.t1, calcMode.t2, calcMode.tv);
 
   const copyArticle = (article) => {
-    navigator.clipboard.writeText(article).then(() => {
-      setCopiedId(article);
-      onArticleCopied?.();
-      setTimeout(() => setCopiedId(null), 2000);
-    }).catch(() => {
-      // Fallback for older browsers
-      const el = document.createElement('textarea');
-      el.value = article;
-      document.body.appendChild(el);
-      el.select();
+    const el = document.createElement('textarea');
+    el.value = article;
+    el.setAttribute('readonly', '');
+    el.style.position = 'absolute';
+    el.style.left = '-9999px';
+    document.body.appendChild(el);
+    el.select();
+    try {
       document.execCommand('copy');
-      document.body.removeChild(el);
-      onArticleCopied?.();
       setCopiedId(article);
+      onArticleCopied?.();
       setTimeout(() => setCopiedId(null), 2000);
-    });
+    } catch (err) {
+      // silent
+    }
+    document.body.removeChild(el);
   };
 
   // Group by connection type
