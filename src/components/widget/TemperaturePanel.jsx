@@ -69,10 +69,10 @@ export default function TemperaturePanel({ calcMode, onChange, passportMode, onP
                     key={preset.label}
                     onClick={() => onChange({ t1: preset.t1, t2: preset.t2, tv: preset.tv })}
                     title={`${preset.t1}/${preset.t2}/${preset.tv}`}
-                    className={`px-3 py-2 rounded-lg text-sm font-semibold transition-all ${
+                    className={`px-3 py-2 rounded-lg text-sm transition-all ${
                       isActive
-                        ? 'bg-kermi-sel ring-2 ring-primary ring-inset text-kermi-heat'
-                        : 'bg-background text-muted-foreground hover:ring-1 hover:ring-primary hover:ring-inset'
+                        ? 'bg-[#F4F4F4] text-[#4A5500] font-semibold'
+                        : 'bg-transparent text-gray-400 font-normal hover:bg-gray-100'
                     }`}
                   >
                     {preset.label}
