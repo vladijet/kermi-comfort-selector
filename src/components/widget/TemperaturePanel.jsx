@@ -12,14 +12,14 @@ export default function TemperaturePanel({ calcMode, onChange, passportMode, onP
         type="number"
         value={mode[key]}
         onChange={e => onModeChange({ ...mode, [key]: e.target.value })}
-        className="w-20 px-3 py-2 rounded-lg border border-border bg-background text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
+        className="w-16 px-2 py-2 rounded-lg border border-border bg-background text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
       />
     </div>
   );
 
   return (
     <div className="bg-card rounded-2xl border border-border p-5 shadow-sm">
-      <div className="flex flex-wrap items-end gap-6">
+      <div className="flex flex-nowrap items-end gap-4">
         {/* Passport mode */}
         <div>
           <p className="text-xs text-gray-400 mb-3 font-semibold uppercase tracking-wide">Паспортный температурный режим</p>
@@ -56,7 +56,7 @@ export default function TemperaturePanel({ calcMode, onChange, passportMode, onP
             </div>
 
             {/* Presets */}
-            <div className="flex items-center gap-2 ml-4">
+            <div className="flex items-center gap-2 ml-2">
               {[
                 { label: 'ΔТ 30', t1: 60, t2: 40, tv: 20 },
                 { label: 'ΔТ 40', t1: 65, t2: 55, tv: 20 },
