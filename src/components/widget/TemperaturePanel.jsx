@@ -40,48 +40,46 @@ export default function TemperaturePanel({ calcMode, onChange, passportMode, onP
         <div className="hidden md:block w-px h-14 bg-gray-100 self-center" />
 
         {/* Calculated mode */}
-        <div className="flex items-start gap-4 flex-wrap">
-          <div>
-            <p className="text-xs text-kermi-heat mb-3 font-semibold uppercase tracking-wide">Расчётный температурный режим</p>
-            <div className="flex items-end gap-3">
-              {renderTempInput('Т1, °C', calcMode, 't1', onChange)}
-              {renderTempInput('Т2, °C', calcMode, 't2', onChange)}
-              {renderTempInput('Тв, °C', calcMode, 'tv', onChange)}
-              <div className="flex flex-col gap-1 pb-0.5">
-                <span className="text-xs text-gray-400">ΔТ, °C</span>
-                {dtArith ? (
-                  <span className="text-sm font-bold text-kermi-heat px-1">= {dtArith.toFixed(0)}</span>
-                ) : (
-                  <span className="text-sm font-medium text-brand-red px-1">Ошибка</span>
-                )}
-              </div>
+        <div>
+          <p className="text-xs text-kermi-heat mb-3 font-semibold uppercase tracking-wide">Расчётный температурный режим</p>
+          <div className="flex items-end gap-3 flex-wrap">
+            {renderTempInput('Т1, °C', calcMode, 't1', onChange)}
+            {renderTempInput('Т2, °C', calcMode, 't2', onChange)}
+            {renderTempInput('Тв, °C', calcMode, 'tv', onChange)}
+            <div className="flex flex-col gap-1 pb-0.5">
+              <span className="text-xs text-gray-400">ΔТ, °C</span>
+              {dtArith ? (
+                <span className="text-sm font-bold text-kermi-heat px-1">= {dtArith.toFixed(0)}</span>
+              ) : (
+                <span className="text-sm font-medium text-brand-red px-1">Ошибка</span>
+              )}
             </div>
-          </div>
 
-          {/* Presets */}
-          <div className="flex items-end pb-0.5 gap-2">
-            {[
-              { label: 'ΔТ 30', t1: 60, t2: 40, tv: 20 },
-              { label: 'ΔТ 40', t1: 65, t2: 55, tv: 20 },
-              { label: 'ΔТ 50', t1: 75, t2: 65, tv: 20 },
-              { label: 'ΔТ 60', t1: 90, t2: 70, tv: 20 },
-            ].map(preset => {
-              const isActive = calcMode.t1 == preset.t1 && calcMode.t2 == preset.t2 && calcMode.tv == preset.tv;
-              return (
-                <button
-                  key={preset.label}
-                  onClick={() => onChange({ t1: preset.t1, t2: preset.t2, tv: preset.tv })}
-                  title={`${preset.t1}/${preset.t2}/${preset.tv}`}
-                  className={`px-3 py-2 rounded-lg text-sm font-semibold transition-all ${
-                    isActive
-                      ? 'bg-kermi-sel ring-2 ring-primary ring-inset text-kermi-heat'
-                      : 'bg-background text-muted-foreground border border-border hover:ring-1 hover:ring-primary hover:ring-inset'
-                  }`}
-                >
-                  {preset.label}
-                </button>
-              );
-            })}
+            {/* Presets */}
+            <div className="flex items-center gap-2 ml-2">
+              {[
+                { label: 'ΔТ 30', t1: 60, t2: 40, tv: 20 },
+                { label: 'ΔТ 40', t1: 65, t2: 55, tv: 20 },
+                { label: 'ΔТ 50', t1: 75, t2: 65, tv: 20 },
+                { label: 'ΔТ 60', t1: 90, t2: 70, tv: 20 },
+              ].map(preset => {
+                const isActive = calcMode.t1 == preset.t1 && calcMode.t2 == preset.t2 && calcMode.tv == preset.tv;
+                return (
+                  <button
+                    key={preset.label}
+                    onClick={() => onChange({ t1: preset.t1, t2: preset.t2, tv: preset.tv })}
+                    title={`${preset.t1}/${preset.t2}/${preset.tv}`}
+                    className={`px-3 py-2 rounded-lg text-sm font-semibold transition-all ${
+                      isActive
+                        ? 'bg-kermi-sel ring-2 ring-primary ring-inset text-kermi-heat'
+                        : 'bg-background text-muted-foreground border border-border hover:ring-1 hover:ring-primary hover:ring-inset'
+                    }`}
+                  >
+                    {preset.label}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
