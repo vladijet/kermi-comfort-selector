@@ -17,6 +17,10 @@
     "analytics_enabled": {
       "type": "boolean",
       "default": true
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
     }
   },
   "required": [

@@ -33,8 +33,15 @@ export default function Embed() {
     base44.functions.invoke('getDealerConfig', { uid })
       .then(resp => {
         const data = resp.data;
-        if (data.status === 'success') setConfig(data.dealer);
-        else setError(data.details || 'Дилер не найден');
+        if (data.status === 'success') {
+          if (data.dealer.is_active === false) {
+            setError('Сервис временно недоступен. Пожалуйста, обратитесь к администратору сайта.');
+          } else {
+            setConfig(data.dealer);
+          }
+        } else {
+          setError(data.details || 'Дилер не найден');
+        }
       })
       .catch(() => setError('Не удалось загрузить настройки виджета'));
   }, [uid]);

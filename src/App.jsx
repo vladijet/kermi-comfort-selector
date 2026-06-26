@@ -9,7 +9,7 @@ import ScrollToTop from './components/ScrollToTop';
 import Widget from './pages/Widget';
 import Admin from './pages/Admin';
 import Embed from './pages/Embed';
-import Dealers from './pages/Dealers';
+
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -35,7 +35,6 @@ const AuthenticatedApp = () => {
     <Routes>
       <Route path="/" element={<Widget />} />
       <Route path="/admin" element={<Admin />} />
-      <Route path="/dealers" element={<Dealers />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
