@@ -56,7 +56,7 @@ export default function TemperaturePanel({ calcMode, onChange, passportMode, onP
             </div>
 
             {/* Presets */}
-            <div className="flex items-center gap-2 ml-2">
+            <div className="flex items-center gap-2 ml-8">
               {[
                 { label: 'ΔТ 30', t1: 60, t2: 40, tv: 20 },
                 { label: 'ΔТ 40', t1: 65, t2: 55, tv: 20 },
@@ -72,7 +72,7 @@ export default function TemperaturePanel({ calcMode, onChange, passportMode, onP
                     className={`px-3 py-2 rounded-lg text-sm font-semibold transition-all ${
                       isActive
                         ? 'bg-kermi-sel ring-2 ring-primary ring-inset text-kermi-heat'
-                        : 'bg-background text-muted-foreground border border-border hover:ring-1 hover:ring-primary hover:ring-inset'
+                        : 'bg-background text-muted-foreground hover:ring-1 hover:ring-primary hover:ring-inset'
                     }`}
                   >
                     {preset.label}
