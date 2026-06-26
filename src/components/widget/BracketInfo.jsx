@@ -2,8 +2,8 @@ import React from 'react';
 import { Package, ShoppingCart } from 'lucide-react';
 import { getMountingInfo, LONG_LENGTH_THRESHOLD } from '@/lib/radiatorData';
 
-export default function BracketInfo({ connectionType, height, length }) {
-  const info = getMountingInfo(connectionType, height, length);
+export default function BracketInfo({ connectionType, height, length, radiatorType }) {
+  const info = getMountingInfo(connectionType, height, length, radiatorType);
   if (!info) return null;
 
   const isLong = Number(length) >= LONG_LENGTH_THRESHOLD;

@@ -132,6 +132,7 @@ export default function ArticleList({ radiators, calcMode, passportMode, passpor
             connectionType={connType}
             height={items[0].height}
             length={items[0].length}
+            radiatorType={items[0].radiator_type}
           />
         </div>
       ))}

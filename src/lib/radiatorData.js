@@ -146,19 +146,22 @@ export const BRACKET_NAMES = {
   ZB00149310: 'Наружный напольный кронштейн для радиаторов типов 10, 11, 20, 30'
 };
 
-function getWallBracketSet(connectionType) {
+const HYGIENIC_CONNECTIONS = ['FK0', 'FTV', 'PK0', 'PTV'];
+const HYGIENIC_TYPES = [10, 20, 30];
+
+function getWallBracketSet(connectionType, radiatorType) {
   if (connectionType === 'FTU') return WALL_BRACKETS_FTU;
-  if (connectionType === 'PK0' || connectionType === 'PTV') return WALL_BRACKETS_GIGIENIC;
+  if (HYGIENIC_CONNECTIONS.includes(connectionType) && HYGIENIC_TYPES.includes(Number(radiatorType))) return WALL_BRACKETS_GIGIENIC;
   return WALL_BRACKETS_STANDARD;
 }
 
-// Returns wall bracket info for a given radiator (connection type, height, length)
+// Returns wall bracket info for a given radiator (connection type, height, length, radiatorType)
 // inKit = true  -> bracket included in the kit (count 2, or 3 when length >= 1700 mm)
 // inKit = false -> bracket ordered separately (FTU)
-export function getMountingInfo(connectionType, height, length) {
+export function getMountingInfo(connectionType, height, length, radiatorType) {
   height = Number(height);
   length = Number(length);
-  const wallSet = getWallBracketSet(connectionType);
+  const wallSet = getWallBracketSet(connectionType, radiatorType);
   const article = wallSet[height];
   if (!article) return null;
   const inKit = WALL_BRACKET_KIT_TYPES.includes(connectionType);
