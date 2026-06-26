@@ -62,15 +62,6 @@ export default function WidgetCore({ loadRadiatorsFn, trackEventFn }) {
     <div className="min-h-screen bg-background p-4 md:p-6" style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}>
       <div className="max-w-6xl mx-auto space-y-5">
 
-        {/* Header */}
-        <div className="flex items-center gap-3">
-          <div className="w-1 h-8 bg-primary rounded-full" />
-          <div>
-            <h1 className="text-lg font-bold text-foreground leading-none">Kermi Comfort</h1>
-            <p className="text-xs text-muted-foreground mt-0.5">Подбор стальных панельных радиаторов</p>
-          </div>
-        </div>
-
         {/* Temperature mode */}
         <TemperaturePanel
           calcMode={calcMode}
