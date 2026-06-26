@@ -60,7 +60,7 @@ export default function WidgetCore({ loadRadiatorsFn, trackEventFn }) {
 
   return (
     <div className="min-h-screen bg-background p-4 md:p-6" style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}>
-      <div className="max-w-6xl mx-auto space-y-5">
+      <div className="w-full space-y-5">
 
         {/* Temperature mode */}
         <TemperaturePanel

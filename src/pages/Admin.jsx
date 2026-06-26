@@ -157,7 +157,7 @@ export default function Admin() {
 
   const buildSnippet = (uid) => {
     const origin = window.location.origin;
-    return `<iframe src="${origin}/embed?uid=${uid}" style="width:100%;height:1000px;border:0;display:block;max-width:1100px;margin:0 auto;" title="Kermi Comfort — подбор радиаторов"></iframe>`;
+    return `<iframe src="${origin}/embed?uid=${uid}" style="width:100%;height:1000px;border:0;display:block;" title="Kermi Comfort — подбор радиаторов"></iframe>`;
   };
 
   const copySnippet = (text) => {
