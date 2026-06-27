@@ -107,7 +107,7 @@ export default function HeatTable({
                     onClick={() => onCellSelect({ height, length: len })}
                     className={`text-center px-1 py-1.5 cursor-pointer rounded transition-all duration-100 ${
                       isSelected
-                        ? 'bg-kermi-sel ring-2 ring-primary ring-inset'
+                        ? 'bg-kermi-sel'
                         : 'hover:ring-1 hover:ring-primary hover:ring-inset'
                     }`}
                   >
