@@ -74,7 +74,7 @@ export default function WidgetCore({ loadRadiatorsFn, trackEventFn }) {
         <div className="bg-card rounded-2xl border border-border p-5 shadow-sm space-y-5">
 
           {/* Series & Type + Legend */}
-          <div className="flex items-center gap-6 flex-wrap">
+          <div className="flex items-center gap-12 flex-wrap">
             <SeriesTypeSelector
               series={series}
               type={type}
