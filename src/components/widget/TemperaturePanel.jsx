@@ -22,7 +22,7 @@ export default function TemperaturePanel({ calcMode, onChange, passportMode, onP
       <div className="flex flex-nowrap items-end gap-4">
         {/* Passport mode */}
         <div>
-          <p className="text-xs text-gray-400 mb-3 font-semibold uppercase tracking-wide">Паспортный температурный режим</p>
+          <p className="text-xs text-gray-400 mb-3 font-semibold uppercase tracking-wide">НОМИНАЛЬНЫЙ ТЕМПЕРАТУРНЫЙ РЕЖИМ</p>
           <div className="flex items-end gap-3">
             {renderTempInput('Т1, °C', passportMode, 't1', onPassportChange)}
             {renderTempInput('Т2, °C', passportMode, 't2', onPassportChange)}

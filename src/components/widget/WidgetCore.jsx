@@ -88,8 +88,8 @@ export default function WidgetCore({ loadRadiatorsFn, trackEventFn }) {
                 <span className="text-sm font-bold text-kermi-heat leading-tight">Б</span>
               </div>
               <div className="flex flex-col gap-1.5">
-                <span className="text-xs text-muted-foreground leading-tight">Номинальная паспортная мощность, Вт</span>
-                <span className="text-sm font-bold text-kermi-heat leading-tight">Расчётная мощность, Вт</span>
+                <span className="text-xs text-muted-foreground leading-tight">Номинальный тепловой поток, Вт</span>
+                <span className="text-sm font-bold text-kermi-heat leading-tight">Расчётный тепловой поток, Вт</span>
               </div>
             </div>
           </div>
