@@ -40,17 +40,15 @@ export default function HeatTable({
     <div className="overflow-x-auto">
       <table className="border-collapse" style={{ minWidth: '100%' }}>
         <thead>
-          <tr>
-            <th className="sticky left-0 z-10 bg-background min-w-[70px] w-[70px] p-0 align-bottom">
-              <div className="flex flex-col px-2 py-1.5 text-muted-foreground">
-                <div className="text-[12px] font-semibold leading-snug">Длина</div>
-                <div className="text-[12px] font-semibold leading-snug">Высота</div>
-              </div>
+          {/* Row 1: "Длина" label + length values */}
+          <tr className="border-b border-border">
+            <th className="sticky left-0 z-10 bg-background min-w-[70px] w-[70px] px-2 py-2 text-left align-middle">
+              <span className="text-[12px] font-semibold text-muted-foreground">Длина</span>
             </th>
             {lengths.map(len => {
               const isLenSelected = selectedCell && selectedCell.length === len;
               return (
-                <th key={len} className="text-center min-w-[72px] px-1 pb-2">
+                <th key={len} className="text-center min-w-[72px] px-1 py-2 align-middle">
                   <span className={`inline-flex items-center justify-center w-12 h-8 rounded-full text-xs font-semibold transition-colors ${
                     isLenSelected
                       ? 'bg-primary text-primary-foreground'
@@ -66,7 +64,10 @@ export default function HeatTable({
         <tbody>
           {heights.map((height, hIdx) => (
             <tr key={height} className={hIdx % 2 === 0 ? 'bg-background' : 'bg-secondary'}>
-              <td className="sticky left-0 z-10 bg-inherit px-2 py-2">
+              <td className="sticky left-0 z-10 bg-inherit px-2 py-1">
+                {hIdx === 0 && (
+                  <div className="text-[11px] font-semibold text-muted-foreground mb-0.5">Высота</div>
+                )}
                 <span className={`inline-flex items-center justify-center w-12 h-8 rounded-full text-sm font-semibold transition-colors ${
                   selectedCell && selectedCell.height === height
                     ? 'bg-primary text-primary-foreground'
