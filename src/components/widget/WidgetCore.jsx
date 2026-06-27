@@ -81,16 +81,10 @@ export default function WidgetCore({ loadRadiatorsFn, trackEventFn }) {
               onSeriesChange={handleSeriesChange}
               onTypeChange={setType}
             />
-            <div className="flex items-center gap-3 bg-gray-50 px-4 py-3 rounded-xl border border-gray-100">
-              <div className="flex flex-col items-center min-w-[32px]">
-                <span className="text-xs text-muted-foreground leading-tight">A</span>
-                <div className="w-6 border-t border-gray-300 my-1.5"></div>
-                <span className="text-sm font-bold text-kermi-heat leading-tight">Б</span>
-              </div>
-              <div className="flex flex-col gap-1.5">
-                <span className="text-xs text-muted-foreground leading-tight">Номинальный тепловой поток, Вт</span>
-                <span className="text-sm font-bold text-kermi-heat leading-tight">Расчётный тепловой поток, Вт</span>
-              </div>
+            <div className="flex flex-col gap-1.5 bg-gray-50 px-4 py-3 rounded-xl border border-gray-100">
+              <span className="text-xs text-muted-foreground leading-tight">Номинальный тепловой поток, Вт</span>
+              <div className="w-full border-t border-gray-300"></div>
+              <span className="text-sm font-bold text-kermi-heat leading-tight">Расчётный тепловой поток, Вт</span>
             </div>
           </div>
 
