@@ -71,7 +71,7 @@ export default function TemperaturePanel({ calcMode, onChange, passportMode, onP
                     title={`${preset.t1}/${preset.t2}/${preset.tv}`}
                     className={`px-3 py-2 rounded-lg text-sm transition-all ${
                       isActive
-                        ? 'bg-[#F4F4F4] text-[#4A5500] font-semibold'
+                        ? 'bg-[#F4F4F4] text-[#191919] font-semibold'
                         : 'bg-transparent text-gray-400 font-normal hover:bg-gray-100'
                     }`}
                   >
