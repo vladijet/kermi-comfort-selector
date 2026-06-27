@@ -40,8 +40,8 @@ export default function HeatTable({
     <div className="overflow-x-auto">
       <table className="border-collapse" style={{ minWidth: '100%' }}>
         <thead>
-          {/* Row 1: "Длина" label + length values */}
-          <tr>
+          {/* Row 1: "Длина" label + length values, with border-bottom = line above "Высота" */}
+          <tr className="border-b border-border">
             <th className="sticky left-0 z-10 bg-background min-w-[88px] w-[88px] px-2 pt-1 pb-1 text-left align-middle">
               <span className="text-xs font-semibold text-muted-foreground">Длина</span>
             </th>
@@ -60,8 +60,8 @@ export default function HeatTable({
               );
             })}
           </tr>
-          {/* Row 2: "Высота" label — separate row with border below */}
-          <tr className="border-b border-border">
+          {/* Row 2: "Высота" label — below the divider line */}
+          <tr>
             <th className="sticky left-0 z-10 bg-background min-w-[88px] w-[88px] px-2 pt-2 pb-1 text-left align-middle">
               <span className="text-xs font-semibold text-muted-foreground">Высота</span>
             </th>
