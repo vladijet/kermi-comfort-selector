@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-import { ArrowRight, ArrowDown } from 'lucide-react';
 import { calcHeatOutput, calcDtln } from '@/lib/radiatorData';
 
 export default function HeatTable({
@@ -43,15 +42,9 @@ export default function HeatTable({
         <thead>
           <tr>
             <th className="sticky left-0 z-10 bg-background min-w-[70px] w-[70px] p-0 align-bottom">
-              <div className="flex flex-col gap-0.5 px-2 py-1.5 text-muted-foreground">
-                <div className="flex items-center gap-0.5 text-[11px] font-semibold leading-none">
-                  Длина
-                  <ArrowRight size={11} strokeWidth={2.5} className="text-brand-green" />
-                </div>
-                <div className="flex items-center gap-0.5 text-[11px] font-semibold leading-none">
-                  Высота
-                  <ArrowDown size={11} strokeWidth={2.5} className="text-primary" />
-                </div>
+              <div className="flex flex-col px-2 py-1.5 text-muted-foreground">
+                <div className="text-[12px] font-semibold leading-snug">Длина</div>
+                <div className="text-[12px] font-semibold leading-snug">Высота</div>
               </div>
             </th>
             {lengths.map(len => {
