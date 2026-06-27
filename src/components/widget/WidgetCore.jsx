@@ -82,14 +82,14 @@ export default function WidgetCore({ loadRadiatorsFn, trackEventFn }) {
               onTypeChange={setType}
             />
             <div className="flex items-center gap-3 bg-gray-50 px-4 py-3 rounded-xl border border-gray-100">
-              <div className="flex flex-col items-center text-sm min-w-[32px]">
-                <span className="text-gray-400 font-normal leading-tight">A</span>
+              <div className="flex flex-col items-center min-w-[32px]">
+                <span className="text-xs text-muted-foreground leading-tight">A</span>
                 <div className="w-6 border-t border-gray-300 my-1.5"></div>
-                <span className="text-kermi-heat font-bold leading-tight">Б</span>
+                <span className="text-sm font-bold text-kermi-heat leading-tight">Б</span>
               </div>
-              <div className="flex flex-col gap-1.5 text-sm">
-                <span className="text-gray-400 font-normal leading-tight">Номинальная паспортная мощность, Вт</span>
-                <span className="font-bold text-kermi-heat leading-tight">Расчётная мощность, Вт</span>
+              <div className="flex flex-col gap-1.5">
+                <span className="text-xs text-muted-foreground leading-tight">Номинальная паспортная мощность, Вт</span>
+                <span className="text-sm font-bold text-kermi-heat leading-tight">Расчётная мощность, Вт</span>
               </div>
             </div>
           </div>
