@@ -42,8 +42,8 @@ export default function HeatTable({
         <thead>
           {/* Row 1: "Длина" label + length values */}
           <tr className="border-b border-border">
-            <th className="sticky left-0 z-10 bg-background min-w-[70px] w-[70px] px-2 py-2 text-left align-middle">
-              <span className="text-[12px] font-semibold text-muted-foreground">Длина</span>
+            <th className="sticky left-0 z-10 bg-background min-w-[88px] w-[88px] px-2 py-2 text-left align-middle">
+              <span className="text-xs font-semibold text-muted-foreground">Длина</span>
             </th>
             {lengths.map(len => {
               const isLenSelected = selectedCell && selectedCell.length === len;
@@ -64,9 +64,9 @@ export default function HeatTable({
         <tbody>
           {heights.map((height, hIdx) => (
             <tr key={height} className={hIdx % 2 === 0 ? 'bg-background' : 'bg-secondary'}>
-              <td className="sticky left-0 z-10 bg-inherit px-2 py-1">
+              <td className="sticky left-0 z-10 bg-inherit px-2 py-1 min-w-[88px] w-[88px]">
                 {hIdx === 0 && (
-                  <div className="text-[11px] font-semibold text-muted-foreground mb-0.5">Высота</div>
+                  <div className="text-xs font-semibold text-muted-foreground mb-0.5">Высота</div>
                 )}
                 <span className={`inline-flex items-center justify-center w-12 h-8 rounded-full text-sm font-semibold transition-colors ${
                   selectedCell && selectedCell.height === height
