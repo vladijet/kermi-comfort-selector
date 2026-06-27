@@ -73,13 +73,26 @@ export default function WidgetCore({ loadRadiatorsFn, trackEventFn }) {
         {/* Main content area */}
         <div className="bg-card rounded-2xl border border-border p-5 shadow-sm space-y-5">
 
-          {/* Series & Type */}
-          <SeriesTypeSelector
-            series={series}
-            type={type}
-            onSeriesChange={handleSeriesChange}
-            onTypeChange={setType}
-          />
+          {/* Series & Type + Legend */}
+          <div className="flex items-center gap-6 flex-wrap">
+            <SeriesTypeSelector
+              series={series}
+              type={type}
+              onSeriesChange={handleSeriesChange}
+              onTypeChange={setType}
+            />
+            <div className="flex items-center gap-3 bg-gray-50 px-4 py-3 rounded-xl border border-gray-100">
+              <div className="flex flex-col items-center text-sm min-w-[32px]">
+                <span className="text-gray-400 font-normal leading-tight">A</span>
+                <div className="w-6 border-t border-gray-300 my-1.5"></div>
+                <span className="text-kermi-heat font-bold leading-tight">Б</span>
+              </div>
+              <div className="flex flex-col gap-1.5 text-sm">
+                <span className="text-gray-400 font-normal leading-tight">Номинальная паспортная мощность, Вт</span>
+                <span className="font-bold text-kermi-heat leading-tight">Расчётная мощность, Вт</span>
+              </div>
+            </div>
+          </div>
 
           <div className="border-t border-gray-50" />
 
