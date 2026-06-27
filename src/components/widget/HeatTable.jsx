@@ -43,7 +43,7 @@ export default function HeatTable({
           {/* Row 1: "Длина" label + length values, with border-bottom = line above "Высота" */}
           <tr className="border-b border-border">
             <th className="sticky left-0 z-10 bg-background min-w-[88px] w-[88px] px-2 pt-1 pb-1 text-left align-middle">
-              <span className="text-xs font-semibold text-muted-foreground">Длина</span>
+              <span className="inline-flex items-center h-8 text-xs font-semibold text-muted-foreground">Длина</span>
             </th>
             {lengths.map(len => {
               const isLenSelected = selectedCell && selectedCell.length === len;
