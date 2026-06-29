@@ -102,12 +102,12 @@ export default function ArticleList({ radiators, calcMode, passportMode, passpor
                     <div className="flex items-center gap-6 ml-auto flex-shrink-0">
                       <div className="text-right">
                         <div className="text-sm md:text-base font-normal text-muted-foreground">{Math.round(r.heat_output_dt70)} Вт</div>
-                        <div className="text-[10px] md:text-xs text-kermi-pass">ΔТ пасп {dtArithPassport ? dtArithPassport.toFixed(0) : '—'}°</div>
+                        <div className="text-[10px] md:text-xs text-kermi-pass">ΔТ ном {dtArithPassport ? dtArithPassport.toFixed(0) : '—'}°</div>
                       </div>
                       {qCalc && (
                         <div className="text-right">
                           <div className="text-sm md:text-base font-bold text-kermi-heat">{Math.round(qCalc)} Вт</div>
-                          <div className="text-[10px] md:text-xs text-muted-foreground">ΔТ расч {dtArithCalc ? dtArithCalc.toFixed(0) : '—'}°</div>
+                          <div className="text-[10px] md:text-xs text-kermi-pass">ΔТ расч {dtArithCalc ? dtArithCalc.toFixed(0) : '—'}°</div>
                         </div>
                       )}
                       {r.weight_net && (
