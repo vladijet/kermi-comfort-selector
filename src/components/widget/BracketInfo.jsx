@@ -59,7 +59,7 @@ export default function BracketInfo({ connectionType, height, length, radiatorTy
             </span>
           )}
         </button>
-        <span className="flex-1 text-sm text-gray-600 truncate">{info.name}</span>
+        <span className="flex-1 text-sm text-gray-600">{info.name}</span>
         <span className="text-sm font-semibold text-kermi-heat whitespace-nowrap">
           {info.count} шт.
           {isLong && (

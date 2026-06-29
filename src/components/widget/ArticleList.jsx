@@ -47,15 +47,15 @@ export default function ArticleList({ radiators, calcMode, passportMode, passpor
             const imageKey = `${items[0]?.series}_${connType}_${rType}`;
             const imgUrl = RADIATOR_IMAGES[imageKey];
             return (
-              <div className="flex items-center justify-between gap-4 px-4 py-2 bg-gray-50 border-b border-gray-100">
-                <span className="text-xs font-medium text-gray-500">
+              <div className="flex items-start justify-between gap-4 px-4 py-3 bg-gray-50 border-b border-gray-100">
+                <span className="text-xs font-medium text-gray-500 leading-relaxed">
                   {CONNECTION_LABELS[connType] || connType}
                 </span>
                 {imgUrl && (
                   <img
                     src={imgUrl}
                     alt={`Чертёж ${connType} тип ${rType}`}
-                    className="h-16 w-auto object-contain"
+                    className="h-16 w-auto max-w-[200px] object-contain flex-shrink-0"
                   />
                 )}
               </div>
@@ -69,9 +69,9 @@ export default function ArticleList({ radiators, calcMode, passportMode, passpor
               const isCopied = copiedId === r.article;
 
               return (
-                <div key={r.article} className="flex items-center gap-4 px-4 py-3 hover:bg-gray-50 transition-colors">
+                <div key={r.article} className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors">
                   {/* Article + copy */}
-                  <div className="flex items-center gap-2 min-w-[180px]">
+                  <div className="flex items-center gap-2 flex-shrink-0">
                     <span className="font-mono text-sm font-semibold text-gray-800">{r.article}</span>
                     <button
                       onClick={() => copyArticle(r.article)}
@@ -92,7 +92,7 @@ export default function ArticleList({ radiators, calcMode, passportMode, passpor
                   </div>
 
                   {/* Description */}
-                  <div className="flex-1 text-sm text-gray-600 truncate">
+                  <div className="hidden">
                     {r.description_ru}
                   </div>
 
