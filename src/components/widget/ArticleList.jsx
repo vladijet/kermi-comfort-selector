@@ -99,9 +99,9 @@ export default function ArticleList({ radiators, calcMode, passportMode, passpor
                     )}
 
                     {/* Heat outputs */}
-                    <div className="flex items-center gap-3 ml-auto flex-shrink-0">
+                    <div className="flex items-center gap-6 ml-auto flex-shrink-0">
                       <div className="text-right">
-                        <div className="text-xs md:text-sm text-muted-foreground">{Math.round(r.heat_output_dt70)} Вт</div>
+                        <div className="text-sm md:text-base font-bold text-muted-foreground">{Math.round(r.heat_output_dt70)} Вт</div>
                         <div className="text-[10px] md:text-xs text-kermi-pass">ΔТ пасп {dtArithPassport ? dtArithPassport.toFixed(0) : '—'}°</div>
                       </div>
                       {qCalc && (
