@@ -53,7 +53,7 @@ export default function ArticleList({ radiators, calcMode, passportMode, passpor
                 <img
                   src={imgUrl}
                   alt={`Чертёж ${connType} тип ${rType}`}
-                  className="h-10 w-auto object-contain"
+                  className="h-10 md:h-16 w-auto object-contain"
                 />
               )}
             </div>
@@ -70,7 +70,7 @@ export default function ArticleList({ radiators, calcMode, passportMode, passpor
                   <div key={r.article} className="flex items-center gap-3 px-4 py-2.5 flex-wrap">
                     {/* Article + copy */}
                     <div className="flex items-center gap-1.5 min-w-0">
-                      <span className="font-mono text-sm font-semibold text-foreground whitespace-nowrap">
+                      <span className="font-mono text-sm md:text-base font-semibold text-foreground whitespace-nowrap">
                         {r.article}
                       </span>
                       <button
@@ -93,7 +93,7 @@ export default function ArticleList({ radiators, calcMode, passportMode, passpor
 
                     {/* Description */}
                     {(r.description_ru || r.description_en) && (
-                      <span className="text-xs text-muted-foreground flex-1 min-w-0 truncate">
+                      <span className="text-xs md:text-sm text-muted-foreground flex-1 min-w-0 truncate">
                         {r.description_ru || r.description_en}
                       </span>
                     )}
@@ -101,17 +101,17 @@ export default function ArticleList({ radiators, calcMode, passportMode, passpor
                     {/* Heat outputs */}
                     <div className="flex items-center gap-3 ml-auto flex-shrink-0">
                       <div className="text-right">
-                        <div className="text-xs text-muted-foreground">{Math.round(r.heat_output_dt70)} Вт</div>
-                        <div className="text-[10px] text-kermi-pass">ΔТ пасп {dtArithPassport ? dtArithPassport.toFixed(0) : '—'}°</div>
+                        <div className="text-xs md:text-sm text-muted-foreground">{Math.round(r.heat_output_dt70)} Вт</div>
+                        <div className="text-[10px] md:text-xs text-kermi-pass">ΔТ пасп {dtArithPassport ? dtArithPassport.toFixed(0) : '—'}°</div>
                       </div>
                       {qCalc && (
                         <div className="text-right">
-                          <div className="text-sm font-bold text-kermi-heat">{Math.round(qCalc)} Вт</div>
-                          <div className="text-[10px] text-muted-foreground">ΔТ расч {dtArithCalc ? dtArithCalc.toFixed(0) : '—'}°</div>
+                          <div className="text-sm md:text-base font-bold text-kermi-heat">{Math.round(qCalc)} Вт</div>
+                          <div className="text-[10px] md:text-xs text-muted-foreground">ΔТ расч {dtArithCalc ? dtArithCalc.toFixed(0) : '—'}°</div>
                         </div>
                       )}
                       {r.weight_net && (
-                        <div className="text-xs text-muted-foreground whitespace-nowrap">{r.weight_net} кг</div>
+                        <div className="text-xs md:text-sm text-muted-foreground whitespace-nowrap">{r.weight_net} кг</div>
                       )}
                     </div>
                   </div>

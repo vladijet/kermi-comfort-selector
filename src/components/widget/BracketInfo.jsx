@@ -28,11 +28,11 @@ export default function BracketInfo({ connectionType, height, length, radiatorTy
 
   return (
     <div className="flex items-center gap-3 px-4 py-2 bg-secondary/50 border-t border-border flex-wrap">
-      <span className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
+      <span className="text-[10px] md:text-xs font-semibold uppercase tracking-wide text-muted-foreground">
         Крепления
       </span>
       <span
-        className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium ${
+        className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] md:text-xs font-medium ${
           info.inKit
             ? 'bg-brand-green/10 text-brand-green'
             : 'bg-amber-100 text-amber-700'
@@ -43,7 +43,7 @@ export default function BracketInfo({ connectionType, height, length, radiatorTy
 
       {/* Article + copy */}
       <div className="flex items-center gap-1.5">
-        <span className="font-mono text-sm font-semibold text-foreground">{info.article}</span>
+        <span className="font-mono text-sm md:text-base font-semibold text-foreground">{info.article}</span>
         <button onClick={copyArticle} className="relative" title="Скопировать артикул">
           {copied ? (
             <Check size={14} className="text-brand-green" />
@@ -59,10 +59,10 @@ export default function BracketInfo({ connectionType, height, length, radiatorTy
       </div>
 
       {/* Name */}
-      <span className="text-xs text-muted-foreground flex-1 min-w-0">{info.name}</span>
+      <span className="text-xs md:text-sm text-muted-foreground flex-1 min-w-0">{info.name}</span>
 
       {/* Count */}
-      <span className="text-sm font-semibold text-foreground whitespace-nowrap ml-auto">
+      <span className="text-sm md:text-base font-semibold text-foreground whitespace-nowrap ml-auto">
         {info.count} шт.
         {isLong && (
           <span className="text-[10px] font-normal text-muted-foreground ml-1">(для длины от {LONG_LENGTH_THRESHOLD} мм)</span>
