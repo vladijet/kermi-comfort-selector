@@ -207,6 +207,9 @@ export default function MobileWizard({ loadRadiatorsFn, trackEventFn }) {
                   </div>
                 ))}
               </div>
+              <div className="mt-2 text-sm font-semibold text-muted-foreground">
+                ΔТ = {calcDtArith(passportMode.t1, passportMode.t2, passportMode.tv)?.toFixed(0) ?? '—'} °C
+              </div>
             </div>
 
             {/* Calc mode */}
@@ -224,14 +227,9 @@ export default function MobileWizard({ loadRadiatorsFn, trackEventFn }) {
                     />
                   </div>
                 ))}
-                <div className="flex flex-col gap-1 pb-0.5">
-                  <span className="text-xs text-gray-400">ΔТ, °C</span>
-                  {dtArith ? (
-                    <span className="text-sm font-bold text-kermi-heat px-1">= {dtArith.toFixed(0)}</span>
-                  ) : (
-                    <span className="text-sm font-medium text-brand-red px-1">Ошибка</span>
-                  )}
-                </div>
+              </div>
+              <div className="mt-2 text-sm font-bold text-kermi-heat">
+                {dtArith ? `ΔТ = ${dtArith.toFixed(0)} °C` : <span className="text-brand-red">Ошибка</span>}
               </div>
             </div>
 
