@@ -3,9 +3,13 @@ import TemperaturePanel from '@/components/widget/TemperaturePanel';
 import SeriesTypeSelector from '@/components/widget/SeriesTypeSelector';
 import HeatTable from '@/components/widget/HeatTable';
 import ArticleList from '@/components/widget/ArticleList';
+import MobileWizard from '@/components/widget/MobileWizard';
 import { TYPES_BY_SERIES, calcDtln } from '@/lib/radiatorData';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export default function WidgetCore({ loadRadiatorsFn, trackEventFn }) {
+  const isMobile = useIsMobile();
+
   const [series, setSeries] = useState('profil');
   const [type, setType] = useState(22);
   const [calcMode, setCalcMode] = useState({ t1: 75, t2: 65, tv: 20 });
@@ -57,6 +61,10 @@ export default function WidgetCore({ loadRadiatorsFn, trackEventFn }) {
   const handleArticleCopied = () => {
     trackEventFn?.('article_copied');
   };
+
+  if (isMobile) {
+    return <MobileWizard loadRadiatorsFn={loadRadiatorsFn} trackEventFn={trackEventFn} />;
+  }
 
   return (
     <div className="min-h-screen bg-background p-4 md:p-6" style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}>
