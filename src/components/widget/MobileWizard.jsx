@@ -98,8 +98,7 @@ export default function MobileWizard({ loadRadiatorsFn, trackEventFn }) {
 
   const handleCellSelect = (cell) => {
     setSelectedCell(cell);
-    setShowArticles(true);
-    setActiveStep(null);
+    setActiveStep('articles');
     trackEventFn?.('calculation_performed');
     setTimeout(() => {
       articlesRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -296,26 +295,28 @@ export default function MobileWizard({ loadRadiatorsFn, trackEventFn }) {
           )}
         </AccordionSection>
 
-        {/* Articles section */}
-        {showArticles && selectedCell && (
-          <div ref={articlesRef} className="bg-card rounded-2xl border border-border p-5 shadow-sm">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-              <h3 className="text-sm font-semibold text-foreground">
-                Артикулы — В{selectedCell.height} × Д{selectedCell.length} мм
-              </h3>
-            </div>
-            {selectedRadiators.length === 0 ? (
-              <p className="text-sm text-muted-foreground">Артикулы не найдены для выбранного размера</p>
-            ) : (
-              <MobileArticleList
-                radiators={selectedRadiators}
-                calcMode={calcMode}
-                passportMode={passportMode}
-                passportDtln={passportDtln}
-                onArticleCopied={handleArticleCopied}
-              />
-            )}
+        {/* Step 4: Articles */}
+        {selectedCell && (
+          <div ref={articlesRef}>
+            <AccordionSection
+              id="articles"
+              activeStep={activeStep}
+              onOpen={setActiveStep}
+              title="Артикулы"
+              summary={selectedCell ? `В${selectedCell.height} × Д${selectedCell.length} мм` : ''}
+            >
+              {selectedRadiators.length === 0 ? (
+                <p className="text-sm text-muted-foreground">Артикулы не найдены для выбранного размера</p>
+              ) : (
+                <MobileArticleList
+                  radiators={selectedRadiators}
+                  calcMode={calcMode}
+                  passportMode={passportMode}
+                  passportDtln={passportDtln}
+                  onArticleCopied={handleArticleCopied}
+                />
+              )}
+            </AccordionSection>
           </div>
         )}
 
