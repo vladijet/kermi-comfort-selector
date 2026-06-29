@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Package, ShoppingCart, Copy, Check } from 'lucide-react';
+import { Copy, Check } from 'lucide-react';
 import { getMountingInfo, LONG_LENGTH_THRESHOLD } from '@/lib/radiatorData';
 
 export default function BracketInfo({ connectionType, height, length, radiatorType }) {
@@ -27,31 +27,24 @@ export default function BracketInfo({ connectionType, height, length, radiatorTy
   };
 
   return (
-    <div className="px-4 py-3 bg-amber-50/40 border-t border-gray-100 space-y-2">
-      {/* Label + status */}
-      <div className="flex items-center gap-2">
-        <span className="text-[10px] font-semibold uppercase tracking-wide text-gray-400">
-          Крепления
-        </span>
-        <span
-          className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium ${
-            info.inKit
-              ? 'bg-brand-green/10 text-brand-green'
-              : 'bg-amber-100 text-amber-700'
-          }`}
-        >
-          {info.inKit ? <Package size={10} /> : <ShoppingCart size={10} />}
-          {info.inKit ? 'В комплекте' : 'Заказывается отдельно'}
-        </span>
-      </div>
+    <div className="flex items-center gap-3 px-4 py-2 bg-secondary/50 border-t border-border flex-wrap">
+      <span className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
+        Крепления
+      </span>
+      <span
+        className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium ${
+          info.inKit
+            ? 'bg-brand-green/10 text-brand-green'
+            : 'bg-amber-100 text-amber-700'
+        }`}
+      >
+        {info.inKit ? 'В комплекте' : 'Заказывается отдельно'}
+      </span>
 
-      {/* Name on its own row */}
-      <div className="text-sm text-gray-600">{info.name}</div>
-
-      {/* Article + count */}
-      <div className="flex items-center gap-2">
-        <span className="font-mono text-sm font-semibold text-gray-800">{info.article}</span>
-        <button onClick={copyArticle} className="relative group" title="Скопировать артикул">
+      {/* Article + copy */}
+      <div className="flex items-center gap-1.5">
+        <span className="font-mono text-sm font-semibold text-foreground">{info.article}</span>
+        <button onClick={copyArticle} className="relative" title="Скопировать артикул">
           {copied ? (
             <Check size={14} className="text-brand-green" />
           ) : (
@@ -63,13 +56,18 @@ export default function BracketInfo({ connectionType, height, length, radiatorTy
             </span>
           )}
         </button>
-        <span className="text-sm font-semibold text-kermi-heat">
-          {info.count} шт.
-        </span>
-        {isLong && (
-          <span className="text-[10px] text-gray-400">(от {LONG_LENGTH_THRESHOLD} мм)</span>
-        )}
       </div>
+
+      {/* Name */}
+      <span className="text-xs text-muted-foreground flex-1 min-w-0">{info.name}</span>
+
+      {/* Count */}
+      <span className="text-sm font-semibold text-foreground whitespace-nowrap ml-auto">
+        {info.count} шт.
+        {isLong && (
+          <span className="text-[10px] font-normal text-muted-foreground ml-1">(для длины от {LONG_LENGTH_THRESHOLD} мм)</span>
+        )}
+      </span>
     </div>
   );
 }

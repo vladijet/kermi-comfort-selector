@@ -36,35 +36,30 @@ export default function ArticleList({ radiators, calcMode, passportMode, passpor
   if (!radiators.length) return null;
 
   return (
-    <div className="mt-4 space-y-4">
+    <div className="space-y-4">
       {Object.entries(grouped).map(([connType, items]) => {
         const rType = items[0]?.radiator_type;
         const imageKey = `${items[0]?.series}_${connType}_${rType}`;
         const imgUrl = RADIATOR_IMAGES[imageKey];
 
         return (
-          <div key={connType} className="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm">
-
-            {/* Header: connection type label */}
-            <div className="px-4 pt-3 pb-1 bg-gray-50 border-b border-gray-100">
-              <span className="text-xs font-semibold text-gray-500">
+          <div key={connType} className="rounded-xl border border-border overflow-hidden">
+            {/* Header row: label + image */}
+            <div className="flex items-center justify-between px-4 py-2 bg-secondary">
+              <span className="text-xs font-medium text-muted-foreground">
                 {CONNECTION_LABELS[connType] || connType}
               </span>
-            </div>
-
-            {/* Image on its own row */}
-            {imgUrl && (
-              <div className="px-4 py-3 bg-gray-50 border-b border-gray-100 flex justify-center">
+              {imgUrl && (
                 <img
                   src={imgUrl}
                   alt={`Чертёж ${connType} тип ${rType}`}
-                  className="h-20 w-auto object-contain"
+                  className="h-10 w-auto object-contain"
                 />
-              </div>
-            )}
+              )}
+            </div>
 
-            {/* Articles */}
-            <div className="divide-y divide-gray-100">
+            {/* Article rows */}
+            <div className="divide-y divide-border">
               {items.map(r => {
                 const qCalc = dtln_calc && passportDtln
                   ? calcHeatOutput(r.heat_output_dt70, dtln_calc, passportDtln, r.n_exponent)
@@ -72,13 +67,15 @@ export default function ArticleList({ radiators, calcMode, passportMode, passpor
                 const isCopied = copiedId === r.article;
 
                 return (
-                  <div key={r.article} className="px-4 py-3 space-y-1.5">
-                    {/* Article + copy button */}
-                    <div className="flex items-center gap-2">
-                      <span className="font-mono text-sm font-semibold text-gray-800">{r.article}</span>
+                  <div key={r.article} className="flex items-center gap-3 px-4 py-2.5 flex-wrap">
+                    {/* Article + copy */}
+                    <div className="flex items-center gap-1.5 min-w-0">
+                      <span className="font-mono text-sm font-semibold text-foreground whitespace-nowrap">
+                        {r.article}
+                      </span>
                       <button
                         onClick={() => copyArticle(r.article)}
-                        className="relative group"
+                        className="relative flex-shrink-0"
                         title="Скопировать артикул"
                       >
                         {isCopied ? (
@@ -94,26 +91,29 @@ export default function ArticleList({ radiators, calcMode, passportMode, passpor
                       </button>
                     </div>
 
-                    {/* Heat output */}
-                    <div className="flex items-center gap-3 text-sm">
-                      <span className="text-gray-400">
-                        Номинал: <span className="font-medium">{Math.round(r.heat_output_dt70)} Вт</span>
-                        <span className="text-xs ml-1 text-gray-300">(ΔТ {dtArithPassport ? dtArithPassport.toFixed(0) : '—'}°)</span>
+                    {/* Description */}
+                    {(r.description_ru || r.description_en) && (
+                      <span className="text-xs text-muted-foreground flex-1 min-w-0 truncate">
+                        {r.description_ru || r.description_en}
                       </span>
-                    </div>
-                    {qCalc && (
-                      <div className="flex items-center gap-3 text-sm">
-                        <span className="text-kermi-heat">
-                          Расчёт: <span className="font-bold">{Math.round(qCalc)} Вт</span>
-                          <span className="text-xs ml-1 text-gray-400">(ΔТ {dtArithCalc ? dtArithCalc.toFixed(0) : '—'}°)</span>
-                        </span>
-                      </div>
                     )}
 
-                    {/* Weight */}
-                    {r.weight_net && (
-                      <div className="text-xs text-gray-400">Вес: {r.weight_net} кг</div>
-                    )}
+                    {/* Heat outputs */}
+                    <div className="flex items-center gap-3 ml-auto flex-shrink-0">
+                      <div className="text-right">
+                        <div className="text-xs text-muted-foreground">{Math.round(r.heat_output_dt70)} Вт</div>
+                        <div className="text-[10px] text-kermi-pass">ΔТ пасп {dtArithPassport ? dtArithPassport.toFixed(0) : '—'}°</div>
+                      </div>
+                      {qCalc && (
+                        <div className="text-right">
+                          <div className="text-sm font-bold text-kermi-heat">{Math.round(qCalc)} Вт</div>
+                          <div className="text-[10px] text-muted-foreground">ΔТ расч {dtArithCalc ? dtArithCalc.toFixed(0) : '—'}°</div>
+                        </div>
+                      )}
+                      {r.weight_net && (
+                        <div className="text-xs text-muted-foreground whitespace-nowrap">{r.weight_net} кг</div>
+                      )}
+                    </div>
                   </div>
                 );
               })}

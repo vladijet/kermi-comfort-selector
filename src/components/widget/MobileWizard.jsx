@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { SERIES, TYPES_BY_SERIES, calcDtln, calcDtArith } from '@/lib/radiatorData';
 import HeatTable from '@/components/widget/HeatTable';
-import ArticleList from '@/components/widget/ArticleList';
+import MobileArticleList from '@/components/widget/MobileArticleList';
 
 const PRESETS = [
   { label: 'ΔТ 30', t1: 60, t2: 40, tv: 20 },
@@ -303,7 +303,7 @@ export default function MobileWizard({ loadRadiatorsFn, trackEventFn }) {
             {selectedRadiators.length === 0 ? (
               <p className="text-sm text-muted-foreground">Артикулы не найдены для выбранного размера</p>
             ) : (
-              <ArticleList
+              <MobileArticleList
                 radiators={selectedRadiators}
                 calcMode={calcMode}
                 passportMode={passportMode}
