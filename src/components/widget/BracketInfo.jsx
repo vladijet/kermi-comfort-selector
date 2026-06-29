@@ -22,15 +22,14 @@ export default function BracketInfo({ connectionType, height, length, radiatorTy
       document.execCommand('copy');
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      // silent
-    }
+    } catch (err) {}
     document.body.removeChild(el);
   };
 
   return (
-    <div className="px-4 py-3 bg-amber-50/40 border-t border-gray-50">
-      <div className="flex items-center gap-2 mb-1.5">
+    <div className="px-4 py-3 bg-amber-50/40 border-t border-gray-100 space-y-2">
+      {/* Label + status */}
+      <div className="flex items-center gap-2">
         <span className="text-[10px] font-semibold uppercase tracking-wide text-gray-400">
           Крепления
         </span>
@@ -45,7 +44,12 @@ export default function BracketInfo({ connectionType, height, length, radiatorTy
           {info.inKit ? 'В комплекте' : 'Заказывается отдельно'}
         </span>
       </div>
-      <div className="flex items-center gap-3">
+
+      {/* Name on its own row */}
+      <div className="text-sm text-gray-600">{info.name}</div>
+
+      {/* Article + count */}
+      <div className="flex items-center gap-2">
         <span className="font-mono text-sm font-semibold text-gray-800">{info.article}</span>
         <button onClick={copyArticle} className="relative group" title="Скопировать артикул">
           {copied ? (
@@ -59,15 +63,12 @@ export default function BracketInfo({ connectionType, height, length, radiatorTy
             </span>
           )}
         </button>
-        <span className="flex-1 text-sm text-gray-600">{info.name}</span>
-        <span className="text-sm font-semibold text-kermi-heat whitespace-nowrap">
+        <span className="text-sm font-semibold text-kermi-heat">
           {info.count} шт.
-          {isLong && (
-            <span className="text-[10px] font-normal text-gray-400 ml-1">
-              (для длины от {LONG_LENGTH_THRESHOLD} мм)
-            </span>
-          )}
         </span>
+        {isLong && (
+          <span className="text-[10px] text-gray-400">(от {LONG_LENGTH_THRESHOLD} мм)</span>
+        )}
       </div>
     </div>
   );
