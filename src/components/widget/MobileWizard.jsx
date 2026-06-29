@@ -98,7 +98,12 @@ export default function MobileWizard({ loadRadiatorsFn, trackEventFn }) {
 
   const handleCellSelect = (cell) => {
     setSelectedCell(cell);
+    setShowArticles(true);
+    setActiveStep(null);
     trackEventFn?.('calculation_performed');
+    setTimeout(() => {
+      articlesRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
   };
 
   const handleShowArticles = () => {
@@ -120,7 +125,7 @@ export default function MobileWizard({ loadRadiatorsFn, trackEventFn }) {
   const dtArith = calcDtArith(calcMode.t1, calcMode.t2, calcMode.tv);
 
   return (
-    <div className="min-h-screen bg-background p-4" style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+    <div className="bg-background p-4" style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}>
       <div className="w-full space-y-3">
 
         {/* Step 1: Config */}
@@ -316,20 +321,7 @@ export default function MobileWizard({ loadRadiatorsFn, trackEventFn }) {
 
       </div>
 
-      {/* Sticky bottom button: show articles */}
-      {selectedCell && !showArticles && (
-        <div className="fixed bottom-0 left-0 right-0 p-4 bg-background border-t border-border z-50">
-          <button
-            onClick={handleShowArticles}
-            className="w-full py-4 rounded-xl bg-primary text-primary-foreground text-sm font-bold shadow-lg"
-          >
-            Показать артикулы — В{selectedCell.height} × Д{selectedCell.length} мм
-          </button>
-        </div>
-      )}
 
-      {/* Bottom padding for sticky button */}
-      {selectedCell && !showArticles && <div className="h-24" />}
     </div>
   );
 }
