@@ -7,7 +7,7 @@ import MobileWizard from '@/components/widget/MobileWizard';
 import { TYPES_BY_SERIES, calcDtln } from '@/lib/radiatorData';
 import { useIsMobile } from '@/hooks/use-mobile';
 
-export default function WidgetCore({ loadRadiatorsFn, trackEventFn }) {
+export default function WidgetCore({ loadRadiatorsFn, trackEventFn, embed = false }) {
   const isMobile = useIsMobile();
 
   const [series, setSeries] = useState('profil');
@@ -76,7 +76,7 @@ export default function WidgetCore({ loadRadiatorsFn, trackEventFn }) {
   }
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-6" style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+    <div className={`bg-background p-4 md:p-6 ${embed ? '' : 'min-h-screen'}`} style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}>
       <div className="w-full space-y-5">
 
         {/* Temperature mode */}

@@ -23,12 +23,14 @@ export default function Embed() {
   const [config, setConfig] = useState(null);
   const [error, setError] = useState(null);
 
-  // Reset body/html margins to avoid extra spacing in iframe
+  // Reset body/html to fit content exactly within iframe (no extra space)
   useEffect(() => {
-    document.body.style.margin = '0';
-    document.body.style.padding = '0';
-    document.documentElement.style.margin = '0';
-    document.documentElement.style.padding = '0';
+    const style = document.createElement('style');
+    style.textContent = `
+      html, body { margin: 0; padding: 0; height: auto; min-height: unset; overflow-x: hidden; }
+    `;
+    document.head.appendChild(style);
+    return () => style.remove();
   }, []);
 
   useEffect(() => {
@@ -93,5 +95,5 @@ export default function Embed() {
     );
   }
 
-  return <WidgetCore loadRadiatorsFn={loadRadiatorsFn} trackEventFn={trackEventFn} />;
+  return <WidgetCore loadRadiatorsFn={loadRadiatorsFn} trackEventFn={trackEventFn} embed />;
 }
