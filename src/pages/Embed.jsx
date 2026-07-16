@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import WidgetCore from '@/components/widget/WidgetCore';
 import { base44 } from '@/api/base44Client';
+import { initIframeAutoHeight } from '@/lib/iframeAutoHeight';
 
 const VISITOR_KEY = 'kermi_visitor_id';
 
@@ -31,6 +32,11 @@ export default function Embed() {
     `;
     document.head.appendChild(style);
     return () => style.remove();
+  }, []);
+
+  // Auto-send iframe content height to parent window
+  useEffect(() => {
+    return initIframeAutoHeight();
   }, []);
 
   useEffect(() => {
