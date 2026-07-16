@@ -48,6 +48,15 @@ export default function WidgetCore({ loadRadiatorsFn, trackEventFn }) {
     setSelectedRadiators(matching);
   }, [selectedCell, radiators]);
 
+  // Smooth scroll to results block when a cell is selected
+  useEffect(() => {
+    if (!selectedCell) return;
+    const el = document.querySelector('[data-results]');
+    if (el) {
+      setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+    }
+  }, [selectedCell]);
+
   const handleSeriesChange = (newSeries) => {
     setSeries(newSeries);
     setType(TYPES_BY_SERIES[newSeries][0]);
@@ -121,7 +130,7 @@ export default function WidgetCore({ loadRadiatorsFn, trackEventFn }) {
 
         {/* Article list */}
         {selectedCell && (
-          <div className="bg-card rounded-2xl border border-border p-5 shadow-sm">
+          <div data-results className="bg-card rounded-2xl border border-border p-5 shadow-sm">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-1.5 h-1.5 rounded-full bg-primary" />
               <h3 className="text-sm font-semibold text-foreground">

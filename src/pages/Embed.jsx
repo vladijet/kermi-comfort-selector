@@ -23,45 +23,12 @@ export default function Embed() {
   const [config, setConfig] = useState(null);
   const [error, setError] = useState(null);
 
-  // Auto-resize iframe height for parent window
+  // Reset body/html margins to avoid extra spacing in iframe
   useEffect(() => {
     document.body.style.margin = '0';
     document.body.style.padding = '0';
     document.documentElement.style.margin = '0';
     document.documentElement.style.padding = '0';
-
-    let lastHeight = 0;
-    let timer = null;
-
-    const sendHeight = () => {
-      timer = null;
-      const height = document.documentElement.scrollHeight;
-      if (Math.abs(height - lastHeight) < 5) return;
-      lastHeight = height;
-      window.parent.postMessage({ type: 'resize', height }, '*');
-    };
-
-    const schedule = () => {
-      if (timer) clearTimeout(timer);
-      timer = setTimeout(sendHeight, 300);
-    };
-
-    schedule();
-
-    const observer = new MutationObserver(schedule);
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true,
-      characterData: true,
-    });
-
-    window.addEventListener('resize', schedule);
-
-    return () => {
-      observer.disconnect();
-      window.removeEventListener('resize', schedule);
-      if (timer) clearTimeout(timer);
-    };
   }, []);
 
   useEffect(() => {
