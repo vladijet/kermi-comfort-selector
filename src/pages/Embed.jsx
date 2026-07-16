@@ -30,28 +30,37 @@ export default function Embed() {
     document.documentElement.style.margin = '0';
     document.documentElement.style.padding = '0';
 
+    let lastHeight = 0;
+    let timer = null;
+
     const sendHeight = () => {
+      timer = null;
       const height = document.documentElement.scrollHeight;
+      if (Math.abs(height - lastHeight) < 5) return;
+      lastHeight = height;
       window.parent.postMessage({ type: 'resize', height }, '*');
     };
 
-    sendHeight();
+    const schedule = () => {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(sendHeight, 300);
+    };
 
-    const observer = new MutationObserver(sendHeight);
-    observer.observe(document.documentElement, {
+    schedule();
+
+    const observer = new MutationObserver(schedule);
+    observer.observe(document.body, {
       childList: true,
       subtree: true,
-      attributes: true,
       characterData: true,
     });
 
-    window.addEventListener('resize', sendHeight);
-    const interval = setInterval(sendHeight, 500);
+    window.addEventListener('resize', schedule);
 
     return () => {
       observer.disconnect();
-      window.removeEventListener('resize', sendHeight);
-      clearInterval(interval);
+      window.removeEventListener('resize', schedule);
+      if (timer) clearTimeout(timer);
     };
   }, []);
 
