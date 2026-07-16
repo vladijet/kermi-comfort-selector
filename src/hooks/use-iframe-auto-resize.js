@@ -8,35 +8,33 @@ import { useEffect } from 'react';
  */
 export function useIframeAutoResize() {
   useEffect(() => {
-    let lastHeight = 0;
     let debounceTimer = null;
 
-    const sendHeight = () => {
+    const sendResize = () => {
       if (debounceTimer) clearTimeout(debounceTimer);
       debounceTimer = setTimeout(() => {
-        const height = document.body.scrollHeight;
-        if (height && height !== lastHeight) {
-          lastHeight = height;
+        const height = document.documentElement.scrollHeight || document.body.scrollHeight;
+        if (height > 0) {
           window.parent.postMessage({ type: 'resize', height }, '*');
         }
-      }, 100);
+      }, 50);
     };
 
-    sendHeight();
+    // Send on mount (page load)
+    sendResize();
 
-    const observer = new MutationObserver(sendHeight);
+    const observer = new MutationObserver(() => sendResize());
     observer.observe(document.body, {
       childList: true,
       subtree: true,
       attributes: true,
-      attributeFilter: ['style', 'class'],
     });
 
-    window.addEventListener('resize', sendHeight);
+    window.addEventListener('resize', sendResize);
 
     return () => {
       observer.disconnect();
-      window.removeEventListener('resize', sendHeight);
+      window.removeEventListener('resize', sendResize);
       if (debounceTimer) clearTimeout(debounceTimer);
     };
   }, []);
