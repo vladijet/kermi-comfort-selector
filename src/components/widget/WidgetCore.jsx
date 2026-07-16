@@ -6,9 +6,11 @@ import ArticleList from '@/components/widget/ArticleList';
 import MobileWizard from '@/components/widget/MobileWizard';
 import { TYPES_BY_SERIES, calcDtln } from '@/lib/radiatorData';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useIframeAutoResize } from '@/hooks/use-iframe-auto-resize';
 
 export default function WidgetCore({ loadRadiatorsFn, trackEventFn }) {
   const isMobile = useIsMobile();
+  useIframeAutoResize();
 
   const [series, setSeries] = useState('profil');
   const [type, setType] = useState(22);
