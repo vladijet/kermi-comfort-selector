@@ -51,9 +51,12 @@ export default function WidgetCore({ loadRadiatorsFn, trackEventFn, embed = fals
   // Smooth scroll to results block when a cell is selected
   useEffect(() => {
     if (!selectedCell) return;
-    const el = document.querySelector('[data-results]');
-    if (el) {
-      setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+    const resultsEl = document.querySelector('[data-results]');
+    if (resultsEl) {
+      setTimeout(() => {
+        const top = resultsEl.getBoundingClientRect().top + window.scrollY - 20;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }, 150);
     }
   }, [selectedCell]);
 
