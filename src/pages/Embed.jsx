@@ -23,6 +23,38 @@ export default function Embed() {
   const [config, setConfig] = useState(null);
   const [error, setError] = useState(null);
 
+  // Auto-resize iframe height for parent window
+  useEffect(() => {
+    document.body.style.margin = '0';
+    document.body.style.padding = '0';
+    document.documentElement.style.margin = '0';
+    document.documentElement.style.padding = '0';
+
+    const sendHeight = () => {
+      const height = document.documentElement.scrollHeight;
+      window.parent.postMessage({ type: 'resize', height }, '*');
+    };
+
+    sendHeight();
+
+    const observer = new MutationObserver(sendHeight);
+    observer.observe(document.documentElement, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      characterData: true,
+    });
+
+    window.addEventListener('resize', sendHeight);
+    const interval = setInterval(sendHeight, 500);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', sendHeight);
+      clearInterval(interval);
+    };
+  }, []);
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     setUid(params.get('uid'));
