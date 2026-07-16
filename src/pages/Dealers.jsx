@@ -17,6 +17,7 @@ export default function Dealers() {
   const [form, setForm] = useState({ company_name: '', website: '', contact_name: '' });
   const [saving, setSaving] = useState(false);
   const [snippetFor, setSnippetFor] = useState(null);
+  const [snippetTab, setSnippetTab] = useState('iframe');
   const [copied, setCopied] = useState(false);
   const [statsFor, setStatsFor] = useState(null);
 
@@ -52,7 +53,18 @@ export default function Dealers() {
 
   const buildSnippet = (uid) => {
     const origin = window.location.origin;
-    return `<iframe src="${origin}/embed?uid=${uid}" style="width:100%;height:1000px;border:0;display:block;max-width:1100px;margin:0 auto;" title="Kermi Comfort — подбор радиаторов"></iframe>`;
+    return `<iframe src="${origin}/embed?uid=${uid}" style="width:100%;height:600px;border:0;display:block;max-width:1100px;margin:0 auto;" title="Kermi Comfort — подбор радиаторов"></iframe>`;
+  };
+
+  const buildListenerScript = (uid) => {
+    return `<script>
+window.addEventListener('message', function(e) {
+  if (e.data && e.data.type === 'setIframeHeight') {
+    var iframe = document.querySelector('iframe[src*="uid=${uid}"]');
+    if (iframe) iframe.style.height = e.data.height + 'px';
+  }
+});
+</script>`;
   };
 
   const copySnippet = (text) => {
@@ -209,14 +221,33 @@ export default function Dealers() {
               <h3 className="text-base font-bold text-gray-800">Код для установки</h3>
             </div>
             <p className="text-xs text-gray-400 mb-4">
-              Передайте этот код партнёру «{snippetFor.company_name}». Вставьте его в HTML страницы там, где должен отображаться калькулятор.
+              Передайте эти коды партнёру «{snippetFor.company_name}». Оба блока вставляются в HTML страницы.
             </p>
+            {/* Tabs */}
+            <div className="flex gap-1 mb-3 p-1 bg-gray-100 rounded-lg">
+              <button
+                onClick={() => { setSnippetTab('iframe'); setCopied(false); }}
+                className={`flex-1 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
+                  snippetTab === 'iframe' ? 'bg-white text-gray-800 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                Код виджета
+              </button>
+              <button
+                onClick={() => { setSnippetTab('listener'); setCopied(false); }}
+                className={`flex-1 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
+                  snippetTab === 'listener' ? 'bg-white text-gray-800 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                Скрипт автовысоты
+              </button>
+            </div>
             <pre className="bg-gray-50 border border-gray-100 rounded-lg p-3 text-xs font-mono text-gray-700 overflow-x-auto whitespace-pre-wrap break-all">
-{buildSnippet(snippetFor.uid)}
+{snippetTab === 'iframe' ? buildSnippet(snippetFor.uid) : buildListenerScript(snippetFor.uid)}
             </pre>
             <div className="flex justify-end mt-4">
               <button
-                onClick={() => copySnippet(buildSnippet(snippetFor.uid))}
+                onClick={() => copySnippet(snippetTab === 'iframe' ? buildSnippet(snippetFor.uid) : buildListenerScript(snippetFor.uid))}
                 className="flex items-center gap-2 px-4 py-2 bg-brand-green text-white rounded-lg text-sm font-medium hover:opacity-90"
               >
                 {copied ? <Check size={14} /> : <Copy size={14} />}
@@ -226,9 +257,8 @@ export default function Dealers() {
             <div className="mt-4 pt-4 border-t border-gray-50">
               <p className="text-xs font-semibold text-gray-500 mb-1">Краткая инструкция для партнёра</p>
               <ol className="text-xs text-gray-500 list-decimal list-inside space-y-1">
-                <li>Откройте HTML-страницу, где нужен калькулятор.</li>
-                <li>Вставьте скопированный код в нужное место.</li>
-                <li>При необходимости измените высоту (height) в стилях iframe.</li>
+                <li>«Код виджета» вставьте в HTML там, где должен отображаться калькулятор.</li>
+                <li>«Скрипт автовысоты» вставьте перед закрывающим тегом <code className="font-mono bg-gray-100 px-1 rounded">&lt;/body&gt;</code> — он подгонит высоту iframe под контент.</li>
                 <li>Сохраните и опубликуйте страницу.</li>
               </ol>
             </div>
