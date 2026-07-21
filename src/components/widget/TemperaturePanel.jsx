@@ -63,7 +63,7 @@ export default function TemperaturePanel({ calcMode, onChange, passportMode, onP
             {/* Presets */}
             <div className="flex items-center gap-2 ml-2">
               {[
-                { label: 'ΔТ 30', t1: 60, t2: 40, tv: 20 },
+                { label: 'ΔТ 30', t1: 55, t2: 45, tv: 20 },
                 { label: 'ΔТ 40', t1: 65, t2: 55, tv: 20 },
                 { label: 'ΔТ 50', t1: 75, t2: 65, tv: 20 },
                 { label: 'ΔТ 60', t1: 90, t2: 70, tv: 20 },
