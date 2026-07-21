@@ -102,7 +102,10 @@ export default function WidgetCore({ loadRadiatorsFn, trackEventFn, embed = fals
               onTypeChange={setType}
             />
             <div className="flex flex-col gap-1.5 bg-gray-50 px-4 py-3 rounded-xl border border-gray-100">
-              <span className="text-xs text-muted-foreground leading-tight">Номинальный тепловой поток, Вт</span>
+              <div className="flex flex-col">
+                <span className="text-xs text-muted-foreground leading-tight">Номинальный тепловой поток, Вт</span>
+                <span className="text-[10px] text-muted-foreground/80 leading-tight">(при ΔТ=70°C, по ГОСТ Р 53583-2009)</span>
+              </div>
               <div className="w-full border-t border-gray-300"></div>
               <span className="text-sm font-bold text-kermi-heat leading-tight">Расчётный тепловой поток, Вт</span>
             </div>
