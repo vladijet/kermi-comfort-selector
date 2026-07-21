@@ -5,14 +5,19 @@ export default function TemperaturePanel({ calcMode, onChange, passportMode, onP
   const dtArith = calcDtArith(calcMode.t1, calcMode.t2, calcMode.tv);
   const passportDtArith = calcDtArith(passportMode.t1, passportMode.t2, passportMode.tv);
 
-  const renderTempInput = (label, mode, key, onModeChange) => (
+  const renderTempInput = (label, mode, key, onModeChange, readOnly = false) => (
     <div className="flex flex-col gap-1">
       <span className="text-xs text-gray-400">{label}</span>
       <input
         type="number"
         value={mode[key]}
         onChange={e => onModeChange({ ...mode, [key]: e.target.value })}
-        className="w-16 px-2 py-2 rounded-lg border border-border bg-background text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
+        readOnly={readOnly}
+        className={`w-16 px-2 py-2 rounded-lg border border-border bg-background text-sm font-medium focus:outline-none focus:border-transparent transition ${
+          readOnly
+            ? 'text-gray-400 bg-secondary cursor-not-allowed'
+            : 'text-foreground focus:ring-2 focus:ring-primary'
+        }`}
       />
     </div>
   );
@@ -24,9 +29,9 @@ export default function TemperaturePanel({ calcMode, onChange, passportMode, onP
         <div>
           <p className="text-xs text-gray-400 mb-3 font-semibold uppercase tracking-wide">НОМИНАЛЬНЫЙ ТЕМПЕРАТУРНЫЙ РЕЖИМ</p>
           <div className="flex items-end gap-3">
-            {renderTempInput('Т1, °C', passportMode, 't1', onPassportChange)}
-            {renderTempInput('Т2, °C', passportMode, 't2', onPassportChange)}
-            {renderTempInput('Тв, °C', passportMode, 'tv', onPassportChange)}
+            {renderTempInput('Т1, °C', passportMode, 't1', onPassportChange, true)}
+            {renderTempInput('Т2, °C', passportMode, 't2', onPassportChange, true)}
+            {renderTempInput('Тв, °C', passportMode, 'tv', onPassportChange, true)}
             <div className="flex flex-col gap-1 pb-0.5">
               <span className="text-xs text-kermi-pass">ΔТ, °C</span>
               <span className="text-sm font-bold text-kermi-pass px-1">

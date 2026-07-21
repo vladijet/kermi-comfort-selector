@@ -49,7 +49,7 @@ export default function MobileWizard({ loadRadiatorsFn, trackEventFn }) {
 
   // Temperature state
   const [calcMode, setCalcMode] = useState({ t1: 75, t2: 65, tv: 20 });
-  const [passportMode] = useState({ t1: 105, t2: 75, tv: 20 });
+  const [passportMode] = useState({ t1: 95, t2: 85, tv: 20 });
   const passportDtln = calcDtln(passportMode.t1, passportMode.t2, passportMode.tv);
 
   // Table state
