@@ -19,5 +19,5 @@ jobs:
           SOURCE: "."
           REMOTE_HOST: ${{ secrets.VPS_HOST }}
           REMOTE_USER: "root"
-          TARGET: "/var/www/kermi-comfort.ru/public_html"
+          TARGET: "/var/www/kermi-static"
           EXCLUDE: "/.git, /.github, /node_modules"
