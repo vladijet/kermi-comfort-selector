@@ -8,7 +8,7 @@ export const base44 = createClient({
   appId,
   token,
   functionsVersion,
-  serverUrl: 'https://kermi-comfort.ru',
+  serverUrl: 'https://api-configurator.kermi-comfort.ru',
   requiresAuth: false,
-  appBaseUrl: 'https://kermi-comfort.ru'
+  appBaseUrl: 'https://api-configurator.kermi-comfort.ru'
 });
