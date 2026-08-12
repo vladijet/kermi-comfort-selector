@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import WidgetCore from '@/components/widget/WidgetCore';
 import { base44 } from '@/api/base44Client';
 
 export default function Widget() {
-  const loadRadiatorsFn = (series, type) =>
-    base44.entities.Radiator.filter({ series, radiator_type: type }, 'height', 500);
+  const loadRadiatorsFn = useCallback((series, type) =>
+    base44.functions.invoke('getPublicRadiators', { series, type })
+      .then(resp => resp.data.radiators || []),
+  []);
 
   return <WidgetCore loadRadiatorsFn={loadRadiatorsFn} />;
 }
