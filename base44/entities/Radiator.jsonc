@@ -68,5 +68,11 @@
     "length",
     "heat_output_dt70",
     "n_exponent"
-  ]
+  ],
+  "rls": {
+    "create": null,
+    "read": null,
+    "update": null,
+    "delete": null
+  }
 }
