@@ -44,7 +44,6 @@ export default function Admin() {
   const [form, setForm] = useState({ company_name: '', website: '', contact_name: '' });
   const [saving, setSaving] = useState(false);
   const [snippetFor, setSnippetFor] = useState(null);
-  const [snippetTab, setSnippetTab] = useState('iframe');
   const [snippetCopied, setSnippetCopied] = useState(false);
   const [statsFor, setStatsFor] = useState(null);
 
@@ -158,18 +157,22 @@ export default function Admin() {
 
   const buildSnippet = (uid) => {
     const origin = 'https://comfort.kermi-configurator.com';
-    return `<iframe src="${origin}/embed?uid=${uid}" style="width:100%;height:600px;border:0;display:block;max-width:1100px;margin:0 auto;" title="Kermi Comfort — подбор радиаторов"></iframe>`;
-  };
-
-  const buildListenerScript = (uid) => {
-    return `<script>
-window.addEventListener('message', function(e) {
-  if (e.data && e.data.type === 'setIframeHeight') {
-    var iframe = document.querySelector('iframe[src*="uid=${uid}"]');
-    if (iframe) iframe.style.height = e.data.height + 'px';
-  }
-});
-</script>`;
+    const containerId = `kermi-widget-${uid.slice(0, 8)}`;
+    return `<div id="${containerId}" style="max-width:1100px;margin:0 auto;">
+  <iframe src="${origin}/embed?uid=${uid}" style="width:100%;height:600px;border:0;display:block;" title="Kermi Comfort — подбор радиаторов"></iframe>
+  <script>
+  (function() {
+    var container = document.getElementById("${containerId}");
+    if (!container) return;
+    var iframe = container.querySelector('iframe');
+    window.addEventListener('message', function(e) {
+      if (iframe && e.data && e.data.type === 'setIframeHeight') {
+        iframe.style.height = e.data.height + 'px';
+      }
+    });
+  })();
+  </script>
+</div>`;
   };
 
   const copySnippet = (text) => {
@@ -519,31 +522,12 @@ window.addEventListener('message', function(e) {
             <p className="text-xs text-gray-400 mb-4">
               Передайте эти коды партнёру «{snippetFor.company_name}». Оба блока вставляются в HTML страницы.
             </p>
-            {/* Tabs */}
-            <div className="flex gap-1 mb-3 p-1 bg-gray-100 rounded-lg">
-              <button
-                onClick={() => { setSnippetTab('iframe'); setSnippetCopied(false); }}
-                className={`flex-1 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
-                  snippetTab === 'iframe' ? 'bg-white text-gray-800 shadow-sm' : 'text-gray-500 hover:text-gray-700'
-                }`}
-              >
-                Код виджета
-              </button>
-              <button
-                onClick={() => { setSnippetTab('listener'); setSnippetCopied(false); }}
-                className={`flex-1 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
-                  snippetTab === 'listener' ? 'bg-white text-gray-800 shadow-sm' : 'text-gray-500 hover:text-gray-700'
-                }`}
-              >
-                Скрипт автовысоты
-              </button>
-            </div>
             <pre className="bg-gray-50 border border-gray-100 rounded-lg p-3 text-xs font-mono text-gray-700 overflow-x-auto whitespace-pre-wrap break-all">
-{snippetTab === 'iframe' ? buildSnippet(snippetFor.uid) : buildListenerScript(snippetFor.uid)}
+{buildSnippet(snippetFor.uid)}
             </pre>
             <div className="flex justify-end mt-4">
               <button
-                onClick={() => copySnippet(snippetTab === 'iframe' ? buildSnippet(snippetFor.uid) : buildListenerScript(snippetFor.uid))}
+                onClick={() => copySnippet(buildSnippet(snippetFor.uid))}
                 className="flex items-center gap-2 px-4 py-2 bg-brand-green text-white rounded-lg text-sm font-medium hover:opacity-90"
               >
                 {snippetCopied ? <Check size={14} /> : <Copy size={14} />}
@@ -553,8 +537,7 @@ window.addEventListener('message', function(e) {
             <div className="mt-4 pt-4 border-t border-gray-50">
               <p className="text-xs font-semibold text-gray-500 mb-1">Краткая инструкция для партнёра</p>
               <ol className="text-xs text-gray-500 list-decimal list-inside space-y-1">
-                <li>«Код виджета» вставьте в HTML там, где должен отображаться калькулятор.</li>
-                <li>«Скрипт автовысоты» вставьте перед закрывающим тегом <code className="font-mono bg-gray-100 px-1 rounded">&lt;/body&gt;</code> — он подгонит высоту iframe под контент.</li>
+                <li>Вставьте код в HTML там, где должен отображаться калькулятор — скрипт автовысоты уже встроен и сам подгонит высоту iframe под контент.</li>
                 <li>Сохраните и опубликуйте страницу.</li>
               </ol>
             </div>
