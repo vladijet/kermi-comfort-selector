@@ -157,7 +157,7 @@ export default function Admin() {
   };
 
   const buildSnippet = (uid) => {
-    const origin = window.location.origin;
+    const origin = 'https://comfort.kermi-configurator.com';
     return `<iframe src="${origin}/embed?uid=${uid}" style="width:100%;height:600px;border:0;display:block;max-width:1100px;margin:0 auto;" title="Kermi Comfort — подбор радиаторов"></iframe>`;
   };
 
