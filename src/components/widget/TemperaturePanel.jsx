@@ -25,9 +25,6 @@ export default function TemperaturePanel({ calcMode, onChange, passportMode, onP
 
   return (
     <div className="bg-card rounded-2xl border border-border p-5 shadow-sm">
-      <div className="flex justify-end mb-3">
-        <TeplocalcBadge />
-      </div>
       <div className="flex flex-nowrap items-end gap-4">
         {/* Passport mode */}
         <div>
@@ -49,8 +46,11 @@ export default function TemperaturePanel({ calcMode, onChange, passportMode, onP
         <div className="hidden md:block w-px h-14 bg-gray-100 self-center" />
 
         {/* Calculated mode */}
-        <div>
-          <p className="text-xs text-kermi-heat mb-3 font-semibold uppercase tracking-wide">Расчётный температурный режим</p>
+        <div className="flex-1">
+          <div className="flex items-center justify-between mb-3">
+            <p className="text-xs text-kermi-heat font-semibold uppercase tracking-wide">Расчётный температурный режим</p>
+            <TeplocalcBadge />
+          </div>
           <div className="flex items-end gap-3">
             {renderTempInput('Т1, °C', calcMode, 't1', onChange)}
             {renderTempInput('Т2, °C', calcMode, 't2', onChange)}

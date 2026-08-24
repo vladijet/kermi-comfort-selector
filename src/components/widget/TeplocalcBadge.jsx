@@ -6,9 +6,9 @@ export default function TeplocalcBadge() {
       href="https://teplocalc.ru"
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium text-gray-200 bg-[#373a3f] border border-[#50545a] hover:bg-[#41454b] transition-colors whitespace-nowrap"
+      className="text-xs font-medium text-muted-foreground hover:text-brand-green transition-colors whitespace-nowrap"
     >
-      Создано в <span className="underline ml-1">Teplocalc.ru</span>
+      Создано в <span className="underline">Teplocalc.ru</span>
     </a>
   );
 }
