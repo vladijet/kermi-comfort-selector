@@ -1,5 +1,6 @@
 import React from 'react';
 import { calcDtArith } from '@/lib/radiatorData';
+import TeplocalcBadge from '@/components/widget/TeplocalcBadge';
 
 export default function TemperaturePanel({ calcMode, onChange, passportMode, onPassportChange }) {
   const dtArith = calcDtArith(calcMode.t1, calcMode.t2, calcMode.tv);
@@ -24,6 +25,9 @@ export default function TemperaturePanel({ calcMode, onChange, passportMode, onP
 
   return (
     <div className="bg-card rounded-2xl border border-border p-5 shadow-sm">
+      <div className="flex justify-end mb-3">
+        <TeplocalcBadge />
+      </div>
       <div className="flex flex-nowrap items-end gap-4">
         {/* Passport mode */}
         <div>

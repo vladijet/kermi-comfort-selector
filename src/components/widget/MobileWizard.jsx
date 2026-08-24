@@ -3,6 +3,7 @@ import { ChevronDown, ChevronUp } from 'lucide-react';
 import { SERIES, TYPES_BY_SERIES, calcDtln, calcDtArith } from '@/lib/radiatorData';
 import HeatTable from '@/components/widget/HeatTable';
 import MobileArticleList from '@/components/widget/MobileArticleList';
+import TeplocalcBadge from '@/components/widget/TeplocalcBadge';
 
 const PRESETS = [
   { label: 'ΔТ 30', t1: 55, t2: 45, tv: 20 },
@@ -191,6 +192,9 @@ export default function MobileWizard({ loadRadiatorsFn, trackEventFn }) {
           summary={tempSummary}
         >
           <div className="space-y-4">
+            <div className="flex justify-end -mt-1">
+              <TeplocalcBadge />
+            </div>
             {/* Passport mode */}
             <div>
               <p className="text-xs text-muted-foreground mb-2 font-medium uppercase tracking-wide">Номинальный режим</p>
