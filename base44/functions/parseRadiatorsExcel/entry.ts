@@ -3,6 +3,19 @@ import * as XLSX from 'npm:xlsx@0.18.5';
 
 // Parse uploaded Excel file and create Radiator records directly on the server.
 // Handles numbers with comma decimal separators and any cell formatting.
+
+// Only allow file URLs hosted on the Base44 media storage origin to prevent SSRF.
+const ALLOWED_HOSTS = ['media.base44.com'];
+
+function isAllowedFileUrl(raw) {
+  if (typeof raw !== 'string' || raw.length > 2048) return false;
+  let url;
+  try { url = new URL(raw); } catch { return false; }
+  if (url.protocol !== 'https:') return false;
+  const host = url.hostname.toLowerCase();
+  return ALLOWED_HOSTS.some(h => host === h || host.endsWith('.' + h));
+}
+
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
@@ -15,6 +28,9 @@ Deno.serve(async (req) => {
 
     if (!fileUrl) {
       return Response.json({ error: 'file_url is required' }, { status: 400 });
+    }
+    if (!isAllowedFileUrl(fileUrl)) {
+      return Response.json({ error: 'file_url must point to the allowed storage origin' }, { status: 400 });
     }
 
     // Fetch the uploaded xlsx file
