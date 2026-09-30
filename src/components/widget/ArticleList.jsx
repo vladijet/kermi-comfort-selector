@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Copy, Check } from 'lucide-react';
 import { calcHeatOutput, calcDtln, calcDtArith, CONNECTION_LABELS, RADIATOR_IMAGES } from '@/lib/radiatorData';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import BracketInfo from '@/components/widget/BracketInfo';
 import RadiatorSpecsDialog from '@/components/widget/RadiatorSpecsDialog';
 
@@ -74,10 +75,13 @@ export default function ArticleList({ radiators, calcMode, passportMode, passpor
                       <span className="font-mono text-sm md:text-base font-semibold text-foreground whitespace-nowrap">
                         {r.article}
                       </span>
+                      <TooltipProvider delayDuration={150}>
+                      <Tooltip>
+                      <TooltipTrigger asChild>
                       <button
                         onClick={() => copyArticle(r.article)}
                         className="relative flex-shrink-0"
-                        title="Скопировать артикул"
+                        aria-label="Скопировать артикул"
                       >
                         {isCopied ? (
                           <Check size={14} className="text-brand-green" />
@@ -90,6 +94,12 @@ export default function ArticleList({ radiators, calcMode, passportMode, passpor
                           </span>
                         )}
                       </button>
+                      </TooltipTrigger>
+                      <TooltipContent className="bg-gray-800 text-white border-0 text-xs">
+                        Скопировать артикул
+                      </TooltipContent>
+                      </Tooltip>
+                      </TooltipProvider>
                     </div>
 
                     {/* Description */}
