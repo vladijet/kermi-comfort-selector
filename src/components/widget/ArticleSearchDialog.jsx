@@ -4,6 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import ArticleDecodeTable from '@/components/widget/ArticleDecodeTable';
+import SearchHistory, { loadHistory, saveToHistory } from '@/components/widget/SearchHistory';
 
 export default function ArticleSearchDialog({ searchArticleFn }) {
   const [open, setOpen] = useState(false);
@@ -11,22 +12,42 @@ export default function ArticleSearchDialog({ searchArticleFn }) {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState('');
+  const [history, setHistory] = useState(loadHistory);
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    const article = query.trim();
+  const handleOpenChange = (value) => {
+    setOpen(value);
+    if (!value) {
+      setQuery('');
+      setResult(null);
+      setError('');
+    }
+  };
+
+  const runSearch = async (article) => {
     if (!article) return;
     setLoading(true);
     setError('');
     setResult(null);
     try {
       const found = await searchArticleFn(article);
-      if (found) setResult(found);
-      else setError('Артикул не найден');
+      if (found) {
+        setResult(found);
+        setHistory(saveToHistory(found.article || article));
+      } else setError('Артикул не найден');
     } catch {
       setError('Не удалось выполнить поиск');
     }
     setLoading(false);
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    runSearch(query.trim());
+  };
+
+  const handleHistorySelect = (article) => {
+    setQuery(article);
+    runSearch(article);
   };
 
   return (
@@ -38,7 +59,7 @@ export default function ArticleSearchDialog({ searchArticleFn }) {
         Поиск по артикулу
         <Search size={14} />
       </button>
-      <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog open={open} onOpenChange={handleOpenChange}>
         <DialogContent className="max-w-lg max-h-[85vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Поиск по артикулу</DialogTitle>
@@ -57,6 +78,7 @@ export default function ArticleSearchDialog({ searchArticleFn }) {
           </form>
           {error && <p className="text-sm text-brand-red">{error}</p>}
           {result && <ArticleDecodeTable radiator={result} />}
+          {!result && !loading && <SearchHistory items={history} onSelect={handleHistorySelect} />}
         </DialogContent>
       </Dialog>
     </>
