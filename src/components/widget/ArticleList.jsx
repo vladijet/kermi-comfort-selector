@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Copy, Check } from 'lucide-react';
 import { calcHeatOutput, calcDtln, calcDtArith, CONNECTION_LABELS, RADIATOR_IMAGES } from '@/lib/radiatorData';
 import BracketInfo from '@/components/widget/BracketInfo';
+import RadiatorSpecsDialog from '@/components/widget/RadiatorSpecsDialog';
 
 export default function ArticleList({ radiators, calcMode, passportMode, passportDtln, onArticleCopied }) {
   const [copiedId, setCopiedId] = useState(null);
@@ -100,6 +101,7 @@ export default function ArticleList({ radiators, calcMode, passportMode, passpor
 
                     {/* Heat outputs */}
                     <div className="flex items-center gap-6 ml-auto flex-shrink-0">
+                      <RadiatorSpecsDialog radiator={r} />
                       <div className="text-right">
                         <div className="text-sm md:text-base font-normal text-muted-foreground">{Math.round(r.heat_output_dt70)} Вт</div>
                         <div className="text-[10px] md:text-xs text-kermi-pass">ΔТ ном {dtArithPassport ? dtArithPassport.toFixed(0) : '—'}°</div>
