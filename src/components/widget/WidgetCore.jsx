@@ -111,7 +111,7 @@ export default function WidgetCore({ loadRadiatorsFn, trackEventFn, searchArticl
               <span className="text-sm font-bold text-kermi-heat leading-tight">Расчётный тепловой поток, Вт</span>
             </div>
             {searchArticleFn && (
-              <div className="ml-auto">
+              <div className="ml-auto self-start">
                 <ArticleSearchDialog searchArticleFn={searchArticleFn} />
               </div>
             )}

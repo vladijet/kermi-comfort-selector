@@ -54,7 +54,7 @@ export default function ArticleSearchDialog({ searchArticleFn }) {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="inline-flex items-center gap-1.5 text-xs text-muted-foreground underline underline-offset-2 hover:text-primary-dark transition-colors"
+        className="inline-flex items-center gap-1.5 text-[14px] text-muted-foreground underline underline-offset-2 hover:text-primary-dark transition-colors"
       >
         <Search size={14} />
         Поиск по артикулу
