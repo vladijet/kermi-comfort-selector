@@ -56,8 +56,8 @@ export default function ArticleSearchDialog({ searchArticleFn }) {
         onClick={() => setOpen(true)}
         className="inline-flex items-center gap-1.5 text-xs text-muted-foreground underline underline-offset-2 hover:text-primary-dark transition-colors"
       >
-        Поиск по артикулу
         <Search size={14} />
+        Поиск по артикулу
       </button>
       <Dialog open={open} onOpenChange={handleOpenChange}>
         <DialogContent className="max-w-lg max-h-[85vh] overflow-y-auto">
