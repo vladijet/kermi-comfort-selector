@@ -101,5 +101,9 @@ export default function Embed() {
     );
   }
 
-  return <WidgetCore loadRadiatorsFn={loadRadiatorsFn} trackEventFn={trackEventFn} embed />;
+  const searchArticleFn = (article) =>
+    base44.functions.invoke('getPublicRadiators', { article })
+      .then(resp => resp.data.radiators?.[0] || null);
+
+  return <WidgetCore loadRadiatorsFn={loadRadiatorsFn} trackEventFn={trackEventFn} searchArticleFn={searchArticleFn} embed />;
 }

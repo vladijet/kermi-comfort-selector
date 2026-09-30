@@ -4,10 +4,11 @@ import SeriesTypeSelector from '@/components/widget/SeriesTypeSelector';
 import HeatTable from '@/components/widget/HeatTable';
 import ArticleList from '@/components/widget/ArticleList';
 import MobileWizard from '@/components/widget/MobileWizard';
+import ArticleSearchDialog from '@/components/widget/ArticleSearchDialog';
 import { TYPES_BY_SERIES, calcDtln } from '@/lib/radiatorData';
 import { useIsMobile } from '@/hooks/use-mobile';
 
-export default function WidgetCore({ loadRadiatorsFn, trackEventFn, embed = false }) {
+export default function WidgetCore({ loadRadiatorsFn, trackEventFn, searchArticleFn, embed = false }) {
   const isMobile = useIsMobile();
 
   const [series, setSeries] = useState('profil');
@@ -109,6 +110,11 @@ export default function WidgetCore({ loadRadiatorsFn, trackEventFn, embed = fals
               <div className="w-full border-t border-gray-300"></div>
               <span className="text-sm font-bold text-kermi-heat leading-tight">Расчётный тепловой поток, Вт</span>
             </div>
+            {searchArticleFn && (
+              <div className="ml-auto">
+                <ArticleSearchDialog searchArticleFn={searchArticleFn} />
+              </div>
+            )}
           </div>
 
           <div className="border-t border-gray-50" />

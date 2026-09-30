@@ -1,0 +1,64 @@
+import React, { useState } from 'react';
+import { Search, Loader2 } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import ArticleDecodeTable from '@/components/widget/ArticleDecodeTable';
+
+export default function ArticleSearchDialog({ searchArticleFn }) {
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState('');
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    const article = query.trim();
+    if (!article) return;
+    setLoading(true);
+    setError('');
+    setResult(null);
+    try {
+      const found = await searchArticleFn(article);
+      if (found) setResult(found);
+      else setError('Артикул не найден');
+    } catch {
+      setError('Не удалось выполнить поиск');
+    }
+    setLoading(false);
+  };
+
+  return (
+    <>
+      <button
+        onClick={() => setOpen(true)}
+        className="inline-flex items-center gap-1.5 text-xs text-muted-foreground underline underline-offset-2 hover:text-primary-dark transition-colors"
+      >
+        Поиск по артикулу
+        <Search size={14} />
+      </button>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="max-w-lg max-h-[85vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Поиск по артикулу</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleSearch} className="flex gap-2">
+            <Input
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+              placeholder="Например, FK0220505"
+              autoFocus
+            />
+            <Button type="submit" disabled={loading || !query.trim()}>
+              {loading && <Loader2 className="w-4 h-4 mr-1 animate-spin" />}
+              Найти
+            </Button>
+          </form>
+          {error && <p className="text-sm text-brand-red">{error}</p>}
+          {result && <ArticleDecodeTable radiator={result} />}
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+}
