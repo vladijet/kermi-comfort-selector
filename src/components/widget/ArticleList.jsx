@@ -82,7 +82,7 @@ export default function ArticleList({ radiators, calcMode, passportMode, passpor
                         {isCopied ? (
                           <Check size={14} className="text-brand-green" />
                         ) : (
-                          <Copy size={14} className="text-muted-foreground hover:text-brand-green transition-colors" />
+                          <Copy size={14} className="text-primary hover:text-primary-dark transition-colors" />
                         )}
                         {isCopied && (
                           <span className="absolute -top-7 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap z-50">
