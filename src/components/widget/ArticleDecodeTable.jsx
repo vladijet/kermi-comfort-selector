@@ -6,6 +6,7 @@ const has = (v) => v !== null && v !== undefined && v !== '';
 export default function ArticleDecodeTable({ radiator: r }) {
   const rows = [
     ['Артикул', r.article],
+    ['Описание', r.description_ru],
     ['Вид', SERIES.find(s => s.id === r.series)?.label],
     ['Тип', r.radiator_type],
     ['Подключение', CONNECTION_LABELS[r.connection_type] || r.connection_type],
@@ -13,11 +14,9 @@ export default function ArticleDecodeTable({ radiator: r }) {
     ['Длина', has(r.length) && `${r.length} мм`],
     ['Глубина', has(r.depth) && `${r.depth} мм`],
     ['Номинальный тепловой поток (ΔT=70 °C, ГОСТ Р 53583-2009)', has(r.heat_output_dt70) && `${Math.round(r.heat_output_dt70)} Вт`],
-    ['Показатель n', r.n_exponent],
     ['Вес нетто', has(r.weight_net) && `${r.weight_net} кг`],
     ['Вес брутто', has(r.weight_gross) && `${r.weight_gross} кг`],
     ['Объём теплоносителя', has(r.volume) && `${r.volume} л`],
-    ['Описание', r.description_ru],
   ].filter(([, v]) => has(v) && v !== false);
 
   return (

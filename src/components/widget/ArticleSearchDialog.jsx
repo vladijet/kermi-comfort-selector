@@ -47,7 +47,7 @@ export default function ArticleSearchDialog({ searchArticleFn }) {
             <Input
               value={query}
               onChange={e => setQuery(e.target.value)}
-              placeholder="Например, FK0220505"
+              placeholder="Например FTV220400801R2C"
               autoFocus
             />
             <Button type="submit" disabled={loading || !query.trim()}>
