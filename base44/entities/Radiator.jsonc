@@ -40,6 +40,9 @@
     "depth": {
       "type": "number"
     },
+    "center_distance": {
+      "type": "number"
+    },
     "heat_output_dt70": {
       "type": "number"
     },

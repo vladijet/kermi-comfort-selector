@@ -1,9 +1,10 @@
 import React from 'react';
-import { SERIES, CONNECTION_LABELS } from '@/lib/radiatorData';
+import { SERIES, CONNECTION_LABELS, getMountingInfo } from '@/lib/radiatorData';
 
 const has = (v) => v !== null && v !== undefined && v !== '';
 
 export default function ArticleDecodeTable({ radiator: r }) {
+  const mount = getMountingInfo(r.connection_type, r.height, r.length, r.radiator_type);
   const rows = [
     ['Артикул', r.article],
     ['Описание', r.description_ru],
@@ -13,6 +14,10 @@ export default function ArticleDecodeTable({ radiator: r }) {
     ['Высота', has(r.height) && `${r.height} мм`],
     ['Длина', has(r.length) && `${r.length} мм`],
     ['Глубина', has(r.depth) && `${r.depth} мм`],
+    ['Межосевое расстояние', has(r.center_distance) && `${r.center_distance} мм`],
+    ['Крепление', mount && (
+      <span><span className="font-mono font-semibold">{mount.article}</span> <span className="font-normal text-muted-foreground">{mount.name}</span></span>
+    )],
     ['Номинальный тепловой поток (ΔT=70 °C, ГОСТ Р 53583-2009)', has(r.heat_output_dt70) && `${Math.round(r.heat_output_dt70)} Вт`],
     ['Вес нетто', has(r.weight_net) && `${r.weight_net} кг`],
     ['Вес брутто', has(r.weight_gross) && `${r.weight_gross} кг`],

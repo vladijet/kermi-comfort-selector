@@ -110,6 +110,7 @@ Deno.serve(async (req) => {
           height: num(pick(r, ['height_mm', 'height', 'высота'])),
           length: num(pick(r, ['length_mm', 'length', 'длина'])),
           depth: num(pick(r, ['depth_mm', 'depth', 'глубина'])),
+          center_distance: num(pick(r, ['center_distance_mm', 'center_distance', 'межосевое расстояние, мм'])),
           heat_output_dt70: num(pick(r, ['heat_output_dt70_w', 'heat_output_dt70', 'теплоотдача'])),
           n_exponent: num(pick(r, ['n_exponent', 'n'])) ?? 1.28,
           weight_net: num(pick(r, ['net_weight_kg', 'weight_net', 'вес_нетто'])),
