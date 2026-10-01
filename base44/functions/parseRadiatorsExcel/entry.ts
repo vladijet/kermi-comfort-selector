@@ -84,11 +84,27 @@ Deno.serve(async (req) => {
       return null;
     };
 
+    // Locate FTU mounting depth column by its Russian label (row 2), map article -> value
+    const headerRow = rowsArr[0] || [];
+    const artCol = headerRow.findIndex(h => String(h || '').trim().toLowerCase() === 'article');
+    let ftuCol = -1;
+    for (const row of rowsArr.slice(0, 3)) {
+      const i = (row || []).findIndex(h => /монтажная глубина радиаторов ftu/i.test(String(h || '')));
+      if (i >= 0) { ftuCol = i; break; }
+    }
+    const ftuByArticle = {};
+    if (artCol >= 0 && ftuCol >= 0) {
+      for (const row of rowsArr) {
+        if (row?.[artCol]) ftuByArticle[String(row[artCol]).trim()] = row[ftuCol];
+      }
+    }
+
     const processedRecords = rows
-      .map((r, idx) => {
+      .map((r) => {
         const articleRaw = pick(r, ['article', 'артикул', 'art', 'article_code']);
         if (!articleRaw) return null;
         const art = String(articleRaw).trim();
+        if (!/^(FK0|FTU|FTV|PK0|PTV)/.test(art)) return null;
 
         let series = 'profil';
         let connection_type = 'FK0';
@@ -122,7 +138,7 @@ Deno.serve(async (req) => {
           min_floor_clearance: num(pick(r, ['min_floor_clearance'])),
           min_wall_clearance: num(pick(r, ['min_wall_clearance'])),
           min_window_clearance: num(pick(r, ['min_window_clearance'])),
-          ftu_mounting_depth: num(pick(r, ['ftu_mounting_depth']) ?? rowsArr[idx + 1]?.[39]),
+          ftu_mounting_depth: num(pick(r, ['ftu_mounting_depth']) ?? ftuByArticle[art]),
           thermostat_connection: pick(r, ['thermostat_connection']) || '',
           connection_thread: pick(r, ['connection_thread']) || '',
           max_operating_temp: num(pick(r, ['max_operating_temp'])),
@@ -149,6 +165,12 @@ Deno.serve(async (req) => {
         records_count: 0,
         debug: { totalRows: rows.length, headers: Object.keys(rows[0]), firstRow: rows[0] }
       });
+    }
+
+    // Replace the whole radiator base
+    while (true) {
+      const res = await base44.asServiceRole.entities.Radiator.deleteMany({});
+      if (!res?.has_more) break;
     }
 
     // Bulk create in batches of 100
