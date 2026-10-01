@@ -60,6 +60,45 @@
     },
     "price": {
       "type": "number"
+    },
+    "min_floor_clearance": {
+      "type": "number"
+    },
+    "min_wall_clearance": {
+      "type": "number"
+    },
+    "min_window_clearance": {
+      "type": "number"
+    },
+    "ftu_mounting_depth": {
+      "type": "number"
+    },
+    "thermostat_connection": {
+      "type": "string"
+    },
+    "connection_thread": {
+      "type": "string"
+    },
+    "max_operating_temp": {
+      "type": "number"
+    },
+    "max_operating_pressure": {
+      "type": "number"
+    },
+    "warranty_years": {
+      "type": "number"
+    },
+    "service_life_years": {
+      "type": "number"
+    },
+    "color": {
+      "type": "string"
+    },
+    "country_of_origin": {
+      "type": "string"
+    },
+    "promo_text": {
+      "type": "string"
     }
   },
   "required": [

@@ -44,7 +44,9 @@ Deno.serve(async (req) => {
     const sheetName = wb.SheetNames[0];
     const ws = wb.Sheets[sheetName];
     // Read as text to avoid Excel locale number issues, then parse ourselves
-    const rows = XLSX.utils.sheet_to_json(ws, { defval: null, raw: false });
+    const rows = XLSX.utils.sheet_to_json(ws, { defval: null, raw: false, blankrows: false });
+    // Positional rows to read column 40 (FTU mounting depth), which has no English header
+    const rowsArr = XLSX.utils.sheet_to_json(ws, { header: 1, defval: null, raw: false, blankrows: false });
 
     if (!rows || !rows.length) {
       if (uploadRecordId) {
@@ -83,7 +85,7 @@ Deno.serve(async (req) => {
     };
 
     const processedRecords = rows
-      .map((r) => {
+      .map((r, idx) => {
         const articleRaw = pick(r, ['article', 'артикул', 'art', 'article_code']);
         if (!articleRaw) return null;
         const art = String(articleRaw).trim();
@@ -116,7 +118,20 @@ Deno.serve(async (req) => {
           weight_net: num(pick(r, ['net_weight_kg', 'weight_net', 'вес_нетто'])),
           weight_gross: num(pick(r, ['gross_weight_kg', 'weight_gross', 'вес_брутто'])),
           volume: num(pick(r, ['coolant_volume_l', 'volume', 'объем'])),
-          price: num(pick(r, ['price', 'цена']))
+          price: num(pick(r, ['price', 'цена'])),
+          min_floor_clearance: num(pick(r, ['min_floor_clearance'])),
+          min_wall_clearance: num(pick(r, ['min_wall_clearance'])),
+          min_window_clearance: num(pick(r, ['min_window_clearance'])),
+          ftu_mounting_depth: num(pick(r, ['ftu_mounting_depth']) ?? rowsArr[idx + 1]?.[39]),
+          thermostat_connection: pick(r, ['thermostat_connection']) || '',
+          connection_thread: pick(r, ['connection_thread']) || '',
+          max_operating_temp: num(pick(r, ['max_operating_temp'])),
+          max_operating_pressure: num(pick(r, ['max_operating_pressure'])),
+          warranty_years: num(pick(r, ['warranty_years'])),
+          service_life_years: num(pick(r, ['service_life_years'])),
+          color: pick(r, ['color']) || '',
+          country_of_origin: pick(r, ['country_of_origin']) || '',
+          promo_text: pick(r, ['promo_text']) || ''
         };
       })
       .filter(Boolean);
